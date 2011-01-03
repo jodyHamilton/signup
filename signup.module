@@ -693,13 +693,17 @@ function signup_user_cancel($edit, $account, $method) {
   }
   else {
     // A single-user delete from the edit tab on the user's profile.
-    $uids[] = $edit['_account']->uid;
+    if (!empty($account->uid)) {
+      $uids[] = $account->uid;
+    }
   }
-  foreach ($uids as $uid) {
-    $signups = db_query("SELECT * FROM {signup_log} WHERE uid = :uid", array(':uid' => $uid));
-    // TODO: Test
-    foreach ($signups as $signup) {
-      signup_cancel_signup($signup);
+  if (!empty($uids) && is_array($uids)) {
+    foreach ($uids as $uid) {
+      $signups = db_query("SELECT * FROM {signup_log} WHERE uid = :uid", array(':uid' => $uid));
+      // TODO: Test
+      foreach ($signups as $signup) {
+        signup_cancel_signup($signup);
+      }
     }
   }
 }
