@@ -17,9 +17,13 @@ Both can receive confirmation and reminder emails, and registered
 users are optionally able to cancel or edit their own signups and view
 listings of their current signups.
 
-There is extensive integration with the Views module
-(http://druapl.org/project/views), and also support to embed the
-signup form as a pane using panels (http://druapl.org/project/panels).
+The Views module (http://druapl.org/project/views) is a dependency
+which is used to create various listings, and there is extensive views
+support for your own customizations.  Installing the View Bulk
+Operations (VBO) module (http://druapl.org/project/views_bulk_operations)
+is strongly encouraged to facilitate various administrative tasks.
+There is also support to embed the signup form as a pane using panels
+(http://drupal.org/project/panels).
 
 Some add-on modules that enhance the basic functionality are available
 in the "modules" subdirectory, and there is a listing of other add-on

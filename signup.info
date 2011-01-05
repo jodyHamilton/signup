@@ -2,6 +2,7 @@
 name = Signup
 description = "Allow users to sign up for content (especially events)."
 package = Signup
+dependencies[] = views
 core = 7.x
 
 files[] = signup.api.php

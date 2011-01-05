@@ -74,22 +74,6 @@ function signup_theme() {
         'cooked_message' => NULL,
       ),
     ),
-    'signup_user_list' => array(
-      'file' => 'no_views.inc',
-      'path' => $path,
-      'variables' => array(
-        'node' => NULL,
-        'registered_signups' => NULL,
-        'anon_signups' => NULL,
-      ),
-    ),
-    'signup_user_schedule' => array(
-      'file' => 'no_views.inc',
-      'path' => $path,
-      'variables' => array(
-        'node' => NULL,
-      ),
-    ),
     'signup_node_admin_page' => array(
       'file' => 'node.admin.inc',
       'path' => $path,
@@ -101,11 +85,6 @@ function signup_theme() {
       ),
     ),
     'signup_node_admin_summary_form' => array(
-      'file' => 'node.admin.inc',
-      'path' => $path,
-      'render element' => 'form',
-    ),
-    'signup_node_admin_details_form' => array(
       'file' => 'node.admin.inc',
       'path' => $path,
       'render element' => 'form',
@@ -431,12 +410,6 @@ function signup_menu() {
     'file path' => $path,
   );
 
-  // Add extra menu items if we're not using views.
-  if (!module_exists('views')) {
-    module_load_include('inc', 'signup', 'includes/no_views');
-    signup_no_views_menu($items);
-  }
-
   return $items;
 }
 
@@ -500,8 +473,8 @@ function _signup_menu_access($node, $menu_type = 'node') {
     case 'list-tab':
       // See if this user can view signups, and if the site is configured to
       // display the signup user list as a tab.
-      $user_list = variable_get('signup_display_signup_user_list', 'signup');
-      if ($user_list == 'signup-tab' || $user_list == 'embed-view-tab') {
+      $user_list = variable_get('signup_display_signup_user_list', 'embed-view');
+      if ($user_list == 'embed-view-tab') {
         $user_list_tab = TRUE;
       }
       else {
@@ -709,22 +682,6 @@ function signup_user_cancel($edit, $account, $method) {
 }
 
 /**
- * Implement hook_user_view().
- *
- * @see _signup_user_view()
- * @ingroup signup_core
- */
-function signup_user_view($account, $view_mode) {
-  // If we're not using views, we need to support additional user view
-  // operations, for example, to add the user's current signup
-  // schedule to their user profile page.
-  if (!module_exists('views')) {
-    module_load_include('inc', 'signup', 'includes/no_views');
-    return _signup_user_view_no_views($account, $view_mode);
-  }
-}
-
-/**
  * Implements hook_form_alter().
  *
  * @ingroup signup_core
@@ -837,8 +794,8 @@ function signup_node_view($node, $view_mode = 'full') {
   // a page, not during the view from comment validation, etc.
   if ($view_mode == 'full' && _signup_needs_output($node)) {
     $info_location = variable_get('signup_form_location', 'node');
-    $list_location = variable_get('signup_display_signup_user_list', 'signup');
-    if ($info_location == 'node' || $list_location == 'signup' || $list_location == 'embed-view') {
+    $list_location = variable_get('signup_display_signup_user_list', 'embed-view');
+    if ($info_location == 'node' || $list_location == 'embed-view') {
       module_load_include('inc', 'signup', 'includes/node_output');
     }
     if ($info_location == 'node') {
@@ -862,7 +819,7 @@ function signup_node_view($node, $view_mode = 'full') {
             );
       }
     }
-    if ($list_location == 'signup' || $list_location == 'embed-view') {
+    if ($list_location == 'embed-view') {
       $signup_list = signup_user_list_output($node);
       if (!empty($signup_list)) {
         if (module_exists('content')) {
@@ -1099,8 +1056,7 @@ function signup_content_extra_fields($type_name) {
         'weight' => 10,
       );
     }
-    $user_list = variable_get('signup_display_signup_user_list', 'signup');
-    if ($user_list == 'signup' || $user_list == 'embed-view') {
+    if (variable_get('signup_display_signup_user_list', 'embed-view') == 'embed-view') {
       $extra['signup_node_list'] = array(
         'label' => t('Signup user list'),
         'description' => t('List of users currently signed up.'),

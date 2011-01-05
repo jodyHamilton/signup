@@ -120,42 +120,23 @@ function signup_user_list_output($node) {
   drupal_set_title($node->title);
 
   // How should the list of signed-up users be displayed, if at all?
-  $display_list = variable_get('signup_display_signup_user_list', 'signup');
+  $display_list = variable_get('signup_display_signup_user_list', 'embed-view');
 
   // Ensure the user has permission to view the signup list for this node.
-  if (_signup_menu_access($node, 'list')) {
-    if ($display_list == 'signup' || $display_list == 'signup-tab') {
-      // Admin wants the hard-coded signup listing.
-      $registered_result = db_query("SELECT u.uid, u.name, s.signup_time, s.form_data FROM {signup_log} s INNER JOIN {users} u ON u.uid = s.uid WHERE s.nid = :nid AND u.uid <> 0", array(':nid' => $node->nid));
-      $registered_signups = array();
-      // TODO: This is redundant. Fix theme_signup_user_list so it can handle the db result directly.
-      foreach ($registered_result as $signed_up_user) {
-        $registered_signups[] = $signed_up_user;
-      }
-      $anon_result = db_query("SELECT * FROM {signup_log} WHERE nid = :nid AND uid = 0", array(':nid' => $node->nid));
-      $anon_signups = array();
-      foreach ($anon_result as $signed_up_user) {
-        $anon_signups[] = $signed_up_user;
-      }
-      $output .= theme('signup_user_list', array('node' => $node, 'registered_signups' => $registered_signups, 'anon_signups' => $anon_signups));
+  if (_signup_menu_access($node, 'list') && ($display_list == 'embed-view' || $display_list == 'embed-view-tab')) {
+    $signup_view = variable_get('signup_user_list_view', 'signup_user_list:default');
+    $signup_view_parts = explode(':', $signup_view);
+    $view_name = $signup_view_parts[0];
+    $view_display = $signup_view_parts[1];
+    $view = views_get_view($view_name);
+    if ($display_list == 'embed-view-tab') {
+      $view->override_path = 'node/%/signups/list';
     }
-    elseif (($display_list == 'embed-view' || $display_list == 'embed-view-tab') && module_exists('views')) {
-      $signup_view = variable_get('signup_user_list_view', 'signup_user_list:default');
-      $signup_view_parts = explode(':', $signup_view);
-      $view_name = $signup_view_parts[0];
-      $view_display = $signup_view_parts[1];
-      $view = views_get_view($view_name);
-      if ($display_list == 'embed-view-tab') {
-        $view->override_path = 'node/%/signups/list';
-      }
-      else {
-        $view->override_path = 'node/%';
-      }
-      $view_args = array($node->nid);
-      $output .=  $view->preview($view_display, $view_args);
+    else {
+      $view->override_path = 'node/%';
     }
-    // Otherwise, they're on their own, and either don't want it displayed at
-    // all, or they want to handle where/how it's displayed via views.
+    $view_args = array($node->nid);
+    $output .=  $view->preview($view_display, $view_args);
   }
   return $output;
 }
