@@ -13,9 +13,7 @@
  * information, see the README.txt and INSTALL.txt files in this directory.
  */
 
-// TODO: Remove this hack.
-include_once drupal_get_path('module', 'signup') . '/includes/no_views.inc';
-
+ 
 /**
  * @defgroup signup_core Core drupal hooks
  */
@@ -128,14 +126,14 @@ function signup_theme() {
     'signup_node_title' => array(
       'file' => 'node.inc',
       'path' => $path,
-      'arguments' => array(
+      'variables' => array(
         'node' => NULL,
       ),
     ),
     'signup_node_title' => array(
       'file' => 'node.inc',
       'path' => $path,
-      'arguments' => array(
+      'variables' => array(
         'node' => NULL,
       ),
     ),
@@ -159,13 +157,6 @@ function signup_theme() {
       'path' => drupal_get_path('module', 'signup') . '/includes',
       'variables' => array(
         'view' => NULL,
-      ),
-    ),
-    'signups_recent_block' => array(
-      'file' => 'no_views.inc',
-      'path' => $path,
-      'variables' => array(
-        'signups' => NULL,
       ),
     ),
   );
@@ -702,7 +693,7 @@ function signup_user_cancel($edit, $account, $method) {
  *
  * @ingroup signup_core
  */
-function signup_user_insert($edit, $account, $category) {
+function signup_user_insert(&$edit, $account, $category) {
   if (!empty($edit['signup'])) {
     foreach($edit['signup'] as $nid => $value) {
       if ($value) {
@@ -989,7 +980,10 @@ function signup_cancel_action($signup) {
  *   table is directly UPDATE'ed in the database.
  */
 function signup_mark_attended_action(&$signup) {
-  db_query("UPDATE {signup_log} SET attended = %d WHERE sid = %d", TRUE, $signup->sid);
+  db_update('signup_log')
+    ->fields(array('attended' => TRUE))
+    ->condition('sid', $signup->sid)
+    ->execute();
   $signup->attended = TRUE;
   watchdog('action', 'Marked signup @signup_id attended.', array('@signup_id' => $signup->sid));
 }
@@ -1005,7 +999,10 @@ function signup_mark_attended_action(&$signup) {
  *   table is directly UPDATE'ed in the database.
  */
 function signup_mark_not_attended_action(&$signup) {
-  db_query("UPDATE {signup_log} SET attended = %d WHERE sid = %d", FALSE, $signup->sid);
+  db_update('signup_log')
+    ->fields(array('attended' => FALSE))
+    ->condition('sid', $signup->sid)
+    ->execute();
   $signup->attended = FALSE;
   watchdog('action', 'Marked signup @signup_id did not attend.', array('@signup_id' => $signup->sid));
 }
@@ -1212,7 +1209,11 @@ function signup_valid_token($token, $sid, $operation) {
  * @ingroup signup_callback
  */
 function signup_close_signup($nid, $cron = 'no') {
-  db_query("UPDATE {signup} SET status = 0 WHERE nid = :nid", array(':nid' => $nid));
+  //db_query("UPDATE {signup} SET status = 0 WHERE nid = :nid", array(':nid' => $nid));
+  db_update('signup')
+    ->fields(array('status' => 0))
+    ->condition('nid', $nid)
+    ->execute();
   if ($cron == 'no') {
     $node = node_load($nid);
     foreach (module_implements('signup_close') as $module) {
@@ -1228,7 +1229,11 @@ function signup_close_signup($nid, $cron = 'no') {
  * @ingroup signup_callback
  */
 function signup_open_signup($nid, $cron = 'no') {
-  db_query("UPDATE {signup} SET status = 1 WHERE nid = :nid", array(':nid' => $nid));
+  //db_query("UPDATE {signup} SET status = 1 WHERE nid = :nid", array(':nid' => $nid));
+  db_update('signup')
+    ->fields(array('status' => 1))
+    ->condition('nid', $nid)
+    ->execute();
   if ($cron == 'no') {
     $node = node_load($nid);
     foreach (module_implements('signup_open') as $module) {
