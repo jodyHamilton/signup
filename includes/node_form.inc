@@ -129,6 +129,7 @@ function signup_alter_node_form(&$form, &$form_state, $form_id) {
       '#collapsible' => TRUE,
       '#collapsed' => FALSE,
       '#weight' => 30,
+      '#group' => 'additional_settings',
     );
 
     // Figure out what the options should be.  If there are already
@@ -160,4 +161,3 @@ function signup_alter_node_form(&$form, &$form_state, $form_id) {
     );
   }
 }
-

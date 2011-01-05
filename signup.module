@@ -706,6 +706,7 @@ function signup_form_node_type_form_alter(&$form, &$form_state) {
     '#title' => t('Signup settings'),
     '#collapsible' => TRUE,
     '#collapsed' => FALSE,
+    '#group' => 'additional_settings',
   );
   $form['signup']['signup_node_default_state'] = array(
     '#type' => 'radios',
