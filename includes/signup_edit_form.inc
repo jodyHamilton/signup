@@ -171,7 +171,11 @@ function signup_edit_form_save_submit($form, $form_state) {
   // be NULL, if the attendence was cleared out by this edit, we need to
   // manually set the DB record to NULL here.
   if (!isset($signup->attended)) {
-    db_query("UPDATE {signup_log} SET attended = NULL WHERE sid = %d", $signup->sid);
+    //db_query("UPDATE {signup_log} SET attended = NULL WHERE sid = %d", $signup->sid);
+    db_update('signup_log')
+      ->fields(array('attended' => NULL))
+      ->condition('sid', $signup->sid)
+      ->execute();
   }
 
   drupal_set_message(t('Signup information updated.'));

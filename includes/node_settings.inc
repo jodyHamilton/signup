@@ -52,7 +52,8 @@ function signup_node_settings_form($form, $form_state, $node = NULL, $node_type 
     '#type' => 'textfield',
     '#title' => t('Send signups to'),
     '#default_value' => $node->signup_forwarding_email,
-    '#size' => 40, '#maxlength' => 64,
+    '#size' => 40,
+    '#maxlength' => 64,
     '#description' => t('Email address where notification of new signups will be sent. Leave blank for no notifications.'),
   );
   $form['signup_send_confirmation'] = array(
@@ -64,7 +65,8 @@ function signup_node_settings_form($form, $form_state, $node = NULL, $node_type 
     '#type' => 'textarea',
     '#title' => t('Confirmation email'),
     '#default_value' => $node->signup_confirmation_email,
-    '#cols' => 40, '#rows' => 6,
+    '#cols' => 40,
+    '#rows' => 6,
     '#description' => t('Email sent to user upon signup. !token_description', array('!token_description' => $signup_token_description)),
   );
   if (module_exists('token')) {
@@ -99,7 +101,8 @@ function signup_node_settings_form($form, $form_state, $node = NULL, $node_type 
       '#type' => 'textarea',
       '#title' => t('Reminder email'),
       '#default_value' => $node->signup_reminder_email,
-      '#cols' => 40, '#rows' => 6,
+      '#cols' => 40,
+      '#rows' => 6,
       '#description' =>  !empty($node_type_name) ? t('Email sent to user as a reminder before the %node_type starts. !token_description', array('%node_type' => $node_type_name, '!token_description' => $signup_token_description)) : t('Email sent to user as a reminder before the start time. !token_description', array('!token_description' => $signup_token_description)),
     );
     if (module_exists('token')) {
@@ -112,7 +115,8 @@ function signup_node_settings_form($form, $form_state, $node = NULL, $node_type 
     '#type' => 'textfield',
     '#title' => t('Signup limit'),
     '#default_value' => $node->signup_close_signup_limit,
-    '#size' => 4, '#maxlength' => 8,
+    '#size' => 4,
+    '#maxlength' => 8,
     '#description' => t('Maximum number of users who can sign up before signups are automatically closed. If set to 0, there is no limit.'),
     '#prefix' => '<div id="signup-limit">',
     '#suffix' => '</div>',
