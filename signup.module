@@ -125,6 +125,13 @@ function signup_theme() {
         'node' => NULL,
       ),
     ),
+    'signup_node_title' => array(
+      'file' => 'node.inc',
+      'path' => $path,
+      'arguments' => array(
+        'node' => NULL,
+      ),
+    ),
     'signup_user_form' => array(
       'file' => 'signup_form.inc',
       'path' => $path,
@@ -682,6 +689,69 @@ function signup_user_cancel($edit, $account, $method) {
 }
 
 /**
+ * Implements hook_user_insert().
+ *
+ * Create signups for new users who signed up via the user registration form.
+ *
+ * @ingroup signup_core
+ */
+function signup_user_insert($edit, $account, $category) {
+  if (!empty($edit['signup'])) {
+    foreach($edit['signup'] as $nid => $value) {
+      if ($value) {
+        $signup_form = array();
+        $signup_form['nid'] = $nid;
+        $signup_form['uid'] = $account->uid;
+        signup_sign_up_user($signup_form, TRUE);
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * @ingroup signup_core
+ */
+function signup_form_user_register_alter(&$form, &$form_state, $form_id) {
+  // Get a list of nodes that should appear on the user registration form.
+  $query = db_select('node', 'n');
+  $alias = $query->join('signup', 's', 'n.nid = s.nid');
+  $query->fields('n', array('nid'));
+  $query
+    ->condition("n.status", 1)
+    ->condition("{$alias}.user_reg_form", 1)
+    ->condition("{$alias}.status", 1);
+  $query->addTag('node_access');
+  $result = $query->execute();
+
+  while ($result = db_fetch_object($query)) {
+    $nids[] = $result->nid;
+  }
+  // Allow other modules to alter the list of nids.
+  drupal_alter('signup_user_reg_nids', $nids);
+  // If there is at least one node, add the Signup fieldset.
+  if (!empty($nids)) {
+    $form['signup'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Event signup'),
+      '#tree' => TRUE,
+      '#description' => t('You will be automatically signed up once your account is created.'),
+    );
+    // Each node gets a checkbox.
+    foreach ($nids as $nid) {
+      $node = node_load($nid);
+      $form['signup'][$nid] = array(
+        '#type' => 'checkbox',
+        '#title' => theme('signup_node_title', $node),
+        '#default_value' => 0,
+      );
+    }
+    return $form;
+  }
+}
+
+/**
  * Implements hook_form_alter().
  *
  * @ingroup signup_core
@@ -775,6 +845,7 @@ function signup_node_load($nodes, $types) {
       $nodes[$signup->nid]->signup_reminder_email = $signup->reminder_email;
       $nodes[$signup->nid]->signup_close_signup_limit = $signup->close_signup_limit;
       $nodes[$signup->nid]->signup_status = $signup->status;
+      $nodes[$signup->nid]->signup_user_reg_form = $signup->user_reg_form;
       if ($nodes[$signup->nid]->nid) {
         $nodes[$signup->nid]->signup_total = db_query("SELECT COUNT(*) FROM {signup_log} WHERE nid = :nid", array(':nid' => $nodes[$signup->nid]->nid))->fetchField();
         $nodes[$signup->nid]->signup_effective_total = db_query("SELECT SUM(count_towards_limit) FROM {signup_log} WHERE nid = :nid", array(':nid' => $nodes[$signup->nid]->nid))->fetchField();
