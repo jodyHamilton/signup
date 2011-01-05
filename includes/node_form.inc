@@ -74,6 +74,11 @@ function signup_save_node($node, $op) {
       ->execute();
   }
 
+  db_update('signup')
+    ->fields(array('user_reg_form' => $node->signup_user_reg))
+    ->condition('nid', $node->nid)
+    ->execute();
+
   $node = node_load($node->nid);
   // We clear CCK's cache for this node due to an edge case bug:
   // http://drupal.org/node/605594.
@@ -158,6 +163,12 @@ function signup_alter_node_form(&$form, &$form_state, $form_id) {
       '#options' => $radio_options,
       '#default_value' => $default_option,
       '#description' => t('If enabled, you can control whether users may sign up by visiting the !signup_admin tab and toggling if signups are %open or %closed for this %node_type. Other signup-related settings can be defined at the !signup_settings tab.', array('!signup_admin' => !empty($node->signup) ? l(t('Signups: Administer'), 'node/' . $node->nid . '/signups/admin') : drupal_placeholder(array('text' => t('Signups: Administer'))), '!signup_settings' => !empty($node->signup) ? l(t('Signups: Settings'), 'node/' . $node->nid . '/signups/settings') : drupal_placeholder(array('text' => t('Signups: Settings'))), '%open' => t('open'), '%closed' => t('closed'), '%node_type' => node_type_get_name($node_type))),
+    );
+    $form['signup']['signup_user_reg'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Users can sign up for this event from the user registration form.'),
+      '#description' => t('If selected, new users will be able to sign up for this event when they register.'),
+      '#default_value' => $node->signup_user_reg_form,
     );
   }
 }
