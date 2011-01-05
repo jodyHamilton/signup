@@ -28,7 +28,6 @@ files[] = includes/token_help.inc
 files[] = content_types/signup_form.inc
 files[] = theme/admin.inc
 files[] = theme/email.inc
-files[] = theme/no_views.inc
 files[] = theme/node.admin.inc
 files[] = theme/node.inc
 files[] = theme/signup_form.inc
