@@ -64,7 +64,7 @@ function theme_signup_node_output_header($variables) {
   return '<a name="signup"></a>';
 }
 
-/*
+/**
  * Return HTML desired when displaying a node title along with the signup date.
  */
 function theme_signup_node_title($node) {
@@ -80,4 +80,3 @@ function theme_signup_node_title($node) {
 
   return l($node->title, 'node/'. $node->nid) . $date_formatted;
 }
-

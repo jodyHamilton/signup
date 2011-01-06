@@ -83,6 +83,10 @@ function theme_signup_node_admin_summary_form($variables) {
   return theme('fieldset', array('element' => $fieldset));
 }
 
+/**
+ * @todo Please document this function.
+ * @see http://drupal.org/node/1354
+ */
 function theme_signup_node_admin_details_form($variables) {
   $form = $variables['form'];
   $fieldset = array(
@@ -157,6 +161,10 @@ function theme_signup_custom_data($variables) {
   return $output;
 }
 
+/**
+ * @todo Please document this function.
+ * @see http://drupal.org/node/1354
+ */
 function theme_signup_attended_text($variables) {
   $attended = $variables['attended'];
   if ($attended === NULL) {
@@ -169,4 +177,3 @@ function theme_signup_attended_text($variables) {
     return t('Attended');
   }
 }
-

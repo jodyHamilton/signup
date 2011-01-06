@@ -32,10 +32,18 @@ function theme_signup_admin_page($variables) {
   return $output;
 }
 
+/**
+ * @todo Please document this function.
+ * @see http://drupal.org/node/1354
+ */
 function theme_signup_filter_status_form($form) {
   return '<div class="container-inline">' . drupal_render($form) . '</div>';
 }
 
+/**
+ * @todo Please document this function.
+ * @see http://drupal.org/node/1354
+ */
 function theme_signup_admin_form($form) {
   if (!isset($form['nids'])) {
     $type = $_SESSION['signup_status_filter'];
@@ -79,4 +87,3 @@ function theme_signup_admin_form($form) {
   }
   return $output;
 }
-
