@@ -58,13 +58,15 @@ function theme_signup_user_form($node) {
   $form['signup_form_data']['Name'] = array(
     '#type' => 'textfield',
     '#title' => t('Name'),
-    '#size' => 40, '#maxlength' => 64,
+    '#size' => 40,
+    '#maxlength' => 64,
     '#required' => TRUE,
   );
   $form['signup_form_data']['Phone'] = array(
     '#type' => 'textfield',
     '#title' => t('Phone'),
-    '#size' => 40, '#maxlength' => 64,
+    '#size' => 40,
+    '#maxlength' => 64,
   );
 
   // If the user is logged in, fill in their name by default.
