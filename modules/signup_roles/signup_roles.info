@@ -3,4 +3,6 @@ name = Signup Roles
 description = "Allows the site to grant one or more roles to users who sign up for nodes."
 dependencies[] = signup
 package = Signup
-core = 6.x
+core = 7.x
+
+files[] = signup_roles.module
