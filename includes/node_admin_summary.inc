@@ -7,6 +7,11 @@
  * Code related to the signup administration tab on each node.
  */
 
+
+/**
+ * @todo Please document this function.
+ * @see http://drupal.org/node/1354
+ */
 function signup_node_admin_summary_form($form, $form_state, $node) {
   if ($node->signup_close_signup_limit &&
     $node->signup_effective_total >= $node->signup_close_signup_limit
@@ -52,6 +57,10 @@ function signup_node_admin_summary_form($form, $form_state, $node) {
   return $form;
 }
 
+/**
+ * @todo Please document this function.
+ * @see http://drupal.org/node/1354
+ */
 function signup_node_admin_summary_form_submit($form, &$form_state) {
   $nid = $form_state['values']['nid'];
   $node = node_load($nid);
@@ -79,4 +88,3 @@ function signup_node_admin_summary_form_submit($form, &$form_state) {
     }
   }
 }
-

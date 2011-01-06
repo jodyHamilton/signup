@@ -17,7 +17,8 @@ function signup_settings_form() {
       '#title' => t('Close x hours before'),
       '#type' => 'textfield',
       '#default_value' => variable_get('signup_close_early', 1),
-      '#size' => 5, '#maxlength' => 10,
+      '#size' => 5,
+      '#maxlength' => 10,
       '#description' => t('The number of hours before the event which signups will no longer be allowed. Use negative numbers to close signups after the event start (example: -12).'),
     );
   }
@@ -135,7 +136,7 @@ function signup_settings_form() {
     $class .= ' js-hide';
   }
   $form['adv_settings']['view_settings'] = array(
-    '#prefix' => '<div class="'. $class .'">',
+    '#prefix' => '<div class="' . $class . '">',
     '#suffix' => '</div>',
     '#weight' => 2,
   );
@@ -144,7 +145,8 @@ function signup_settings_form() {
   foreach ($views as $view) {
     foreach (array_keys($view->display) as $display_id) {
       if ($display_id != 'default' || 1) {
-        $key = $view->name .':'. $display_id;
+        $key = $view->name . ':' . $display_id;
+        // TODO Please change this theme call to use an associative array for the $variables parameter.
         $view_options[$key] = theme('signup_settings_view_label', $view, $display_id);
       }
     }
@@ -162,7 +164,7 @@ function signup_settings_form() {
     $class .= ' js-hide';
   }
   $form['adv_settings']['admin_view_settings'] = array(
-    '#prefix' => '<div class="'. $class .'">',
+    '#prefix' => '<div class="' . $class . '">',
     '#suffix' => '</div>',
     '#weight' => 6,
   );

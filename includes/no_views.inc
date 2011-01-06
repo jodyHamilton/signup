@@ -11,6 +11,8 @@
  *
  */
 
+// TODO: is this file still needed?
+
 /**
  * Implements hook_block_info().
  *

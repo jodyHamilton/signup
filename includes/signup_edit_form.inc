@@ -80,7 +80,7 @@ function signup_edit_form($form_state, $signup, $type) {
       '#type' => 'select',
       '#title' => t('Attendance'),
       '#default_value' => isset($signup->attended) ? $signup->attended : -1,
-      '#options' => $options
+      '#options' => $options,
     );
   }
 

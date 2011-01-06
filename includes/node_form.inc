@@ -37,10 +37,14 @@ function signup_save_node($node, $op) {
   if ($op == 'update' && isset($node->signup_enabled)) {
     switch ($node->signup_enabled) {
       case 2: // Disabled, and delete {signup_log}, too
-        db_delete('signup_log')->condition('nid', $node->nid)->execute();
+        db_delete('signup_log')
+          ->condition('nid', $node->nid)
+          ->execute();
         // No break, fall through and remove from {signup} too.
       case 0: // Disabled, but leave {signup_log} alone
-        db_delete('signup')->condition('nid', $node->nid)->execute();
+        db_delete('signup')
+          ->condition('nid', $node->nid)
+          ->execute();
         // We're done.
         return;
     }
@@ -83,7 +87,7 @@ function signup_save_node($node, $op) {
   // We clear CCK's cache for this node due to an edge case bug:
   // http://drupal.org/node/605594.
   if (module_exists('content')) {
-    cache_clear_all('content:'. $node->nid .':'. $node->vid, content_cache_tablename());
+    cache_clear_all('content:' . $node->nid . ':' . $node->vid, content_cache_tablename());
   }
   if (_signup_node_completed($node) && !empty($node->signup_status)) {
     // If this is an time-based node, and it's already past the close in

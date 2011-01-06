@@ -98,6 +98,10 @@ function _signup_node_completed($node) {
   }
 }
 
+/**
+ * @todo Please document this function.
+ * @see http://drupal.org/node/1354
+ */
 function signup_format_date($node) {
   switch (_signup_get_node_scheduler($node)) {
     case 'event':
@@ -111,6 +115,10 @@ function signup_format_date($node) {
   }
 }
 
+/**
+ * @todo Please document this function.
+ * @see http://drupal.org/node/1354
+ */
 function signup_reminder_sql($node_type) {
   switch (_signup_get_node_type_scheduler($node_type)) {
     case 'event':
@@ -124,6 +132,10 @@ function signup_reminder_sql($node_type) {
   }
 }
 
+/**
+ * @todo Please document this function.
+ * @see http://drupal.org/node/1354
+ */
 function signup_autoclose_sql($node_type) {
   switch (_signup_get_node_type_scheduler($node_type)) {
     case 'event':
@@ -137,6 +149,10 @@ function signup_autoclose_sql($node_type) {
   }
 }
 
+/**
+ * @todo Please document this function.
+ * @see http://drupal.org/node/1354
+ */
 function signup_admin_sql($node_type) {
   switch (_signup_get_node_type_scheduler($node_type)) {
     case 'event':
@@ -149,4 +165,3 @@ function signup_admin_sql($node_type) {
       return array();
   }
 }
-

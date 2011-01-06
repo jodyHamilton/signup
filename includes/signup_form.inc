@@ -188,6 +188,10 @@ function signup_form_validate_username($form, $form_state) {
   }
 }
 
+/**
+ * @todo Please document this function.
+ * @see http://drupal.org/node/1354
+ */
 function signup_node_admin_add_user_page($node) {
 
   drupal_set_title($node->title);

@@ -142,12 +142,20 @@ function signup_admin_form_header() {
   return array();
 }
 
+/**
+ * @todo Please document this function.
+ * @see http://drupal.org/node/1354
+ */
 function signup_admin_form_extra($signup_node) {
   return array(
     '#markup' => signup_format_date($signup_node),
   );
 }
 
+/**
+ * @todo Please document this function.
+ * @see http://drupal.org/node/1354
+ */
 function signup_admin_form_sql() {
   $admin_common_sql = array(
     'primary' => '{node} n',
@@ -203,6 +211,10 @@ function signup_admin_form_sql() {
   // return array(db_rewrite_sql($sql), db_rewrite_sql($sql_count, 's'));
 }
 
+/**
+ * @todo Please document this function.
+ * @see http://drupal.org/node/1354
+ */
 function signup_admin_form_submit($form, &$form_state) {
   module_load_include('inc', 'signup', 'includes/node_admin_summary');
   foreach ($form_state['values']['nids'] as $nid => $values) {

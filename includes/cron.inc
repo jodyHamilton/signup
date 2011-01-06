@@ -71,7 +71,13 @@ function _signup_cron_send_reminders() {
 
       // Reminders for this node are all sent, so mark it in the
       // database so they're not sent again.
-      db_query("UPDATE {signup} SET send_reminder = 0 WHERE nid = %d", $node->nid);
+
+      // TODO Please review the conversion of this statement to the D7 database API syntax.
+      /* db_query("UPDATE {signup} SET send_reminder = 0 WHERE nid = %d", $node->nid) */
+      db_update('signup')
+        ->fields(array('send_reminder' => 0))
+        ->condition('nid', $node->nid)
+        ->execute();
     }
   }
 }

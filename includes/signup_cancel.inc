@@ -7,6 +7,11 @@
  * Code for the page to cancel a signup from a secure link.
  */
 
+
+/**
+ * @todo Please document this function.
+ * @see http://drupal.org/node/1354
+ */
 function signup_cancel_signup_page($signup, $token) {
   if (signup_valid_token($token, $signup->sid, 'cancel')) {
     return drupal_get_form('signup_cancel_link_confirm_form', $signup->sid);
@@ -15,6 +20,10 @@ function signup_cancel_signup_page($signup, $token) {
   drupal_goto();
 }
 
+/**
+ * @todo Please document this function.
+ * @see http://drupal.org/node/1354
+ */
 function signup_cancel_link_confirm_form($form, $form_state, $sid) {
   $info = db_query("SELECT n.nid, n.title, s.* FROM {node} n INNER JOIN {signup_log} s ON n.nid = s.nid WHERE s.sid = :sid", array(':sid' => $sid))->fetchObject();
 
@@ -41,6 +50,10 @@ function signup_cancel_link_confirm_form($form, $form_state, $sid) {
   );
 }
 
+/**
+ * @todo Please document this function.
+ * @see http://drupal.org/node/1354
+ */
 function signup_cancel_link_confirm_form_submit($form, &$form_state) {
   signup_cancel_signup($form_state['values']['sid']);
   $form_state['redirect'] = 'node/' . $form_state['values']['nid'];

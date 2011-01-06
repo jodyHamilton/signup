@@ -103,7 +103,7 @@ function signup_node_settings_form($form, $form_state, $node = NULL, $node_type 
       '#default_value' => $node->signup_reminder_email,
       '#cols' => 40,
       '#rows' => 6,
-      '#description' =>  !empty($node_type_name) ? t('Email sent to user as a reminder before the %node_type starts. !token_description', array('%node_type' => $node_type_name, '!token_description' => $signup_token_description)) : t('Email sent to user as a reminder before the start time. !token_description', array('!token_description' => $signup_token_description)),
+      '#description' => !empty($node_type_name) ? t('Email sent to user as a reminder before the %node_type starts. !token_description', array('%node_type' => $node_type_name, '!token_description' => $signup_token_description)) : t('Email sent to user as a reminder before the start time. !token_description', array('!token_description' => $signup_token_description)),
     );
     if (module_exists('token')) {
       module_load_include('inc', 'signup', 'includes/token_help');
@@ -121,7 +121,10 @@ function signup_node_settings_form($form, $form_state, $node = NULL, $node_type 
     '#prefix' => '<div id="signup-limit">',
     '#suffix' => '</div>',
   );
-  $form['signup'] = array('#type' => 'hidden', '#value' => 1);
+  $form['signup'] = array(
+    '#type' => 'hidden',
+    '#value' => 1,
+  );
 
   if ($include_buttons) {
     $form['#node'] = $node;

@@ -36,6 +36,10 @@ function _signup_date_admin_sql($content_type) {
   );
 }
 
+/**
+ * @todo Please document this function.
+ * @see http://drupal.org/node/1354
+ */
 function signup_field_names($content_type = NULL) {
   $fields = array();
   $content_type_info = _content_type_info();
@@ -49,6 +53,10 @@ function signup_field_names($content_type = NULL) {
   return $fields;
 }
 
+/**
+ * @todo Please document this function.
+ * @see http://drupal.org/node/1354
+ */
 function signup_date_field($content_type) {
   $field_name = variable_get('signup_date_field_' . $content_type, 0);
   if ($field_name === 0 || $field_name == '0') {
