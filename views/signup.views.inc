@@ -136,7 +136,7 @@ function signup_views_data() {
       'handler' => 'signup_handler_filter_signup_disabled',
       'help' => t('Filter on if signups are enabled or disabled.'),
       'label' => 'Signups',
-      ),
+    ),
   );
 
   $data['signup']['node_link'] = array(
@@ -189,7 +189,7 @@ function signup_views_data() {
     'sort' => array(
       'handler' => 'views_handler_sort',
       'help' => t('Sort by signup ID.'),
-    )
+    ),
   );
 
   $data['signup_log']['nid'] = array(
