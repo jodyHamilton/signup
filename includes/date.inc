@@ -42,11 +42,24 @@ function _signup_date_admin_sql($content_type) {
  */
 function signup_field_names($content_type = NULL) {
   $fields = array();
-  $content_type_info = _content_type_info();
+  /*$content_type_info = _content_type_info();
   if ($content_type_info['content types'][$content_type]) {
     foreach ($content_type_info['content types'][$content_type]['fields'] as $field) {
       if (in_array($field['type'], array('date', 'datestamp', 'datetime'))) {
         $fields[$field['field_name']] = $field['widget']['label'];
+      }
+    }
+  }*/
+
+  /* TODO: Test if this works, and if this is the optimum way of retrieving
+   * this information.
+   * @see http://api.drupal.org/api/drupal/modules--field--field.info.inc/7
+   */
+  $content_type_info = field_info_instances('node');
+  if ($content_type_info[$content_type]) {
+    foreach ($content_type_info[$content_type] as $field_name => $field) {
+      if ($field['widget']['module'] == 'date') {
+        $fields[$field_name] = $field['label'];
       }
     }
   }
