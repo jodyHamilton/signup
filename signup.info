@@ -8,6 +8,7 @@ core = 7.x
 files[] = signup.api.php
 files[] = signup.install
 files[] = signup.module
+files[] = signup.test
 files[] = includes/admin.settings.inc
 files[] = includes/admin.signup_administration.inc
 files[] = includes/broadcast.inc
