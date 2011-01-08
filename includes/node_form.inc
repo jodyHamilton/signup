@@ -166,13 +166,13 @@ function signup_alter_node_form(&$form, &$form_state, $form_id) {
       '#type' => 'radios',
       '#options' => $radio_options,
       '#default_value' => $default_option,
-      '#description' => t('If enabled, you can control whether users may sign up by visiting the !signup_admin tab and toggling if signups are %open or %closed for this %node_type. Other signup-related settings can be defined at the !signup_settings tab.', array('!signup_admin' => !empty($node->signup) ? l(t('Signups: Administer'), 'node/' . $node->nid . '/signups/admin') : drupal_placeholder(array('text' => t('Signups: Administer'))), '!signup_settings' => !empty($node->signup) ? l(t('Signups: Settings'), 'node/' . $node->nid . '/signups/settings') : drupal_placeholder(array('text' => t('Signups: Settings'))), '%open' => t('open'), '%closed' => t('closed'), '%node_type' => node_type_get_name($node_type))),
+      '#description' => t('If enabled, you can control whether users may sign up by visiting the !signup_admin tab and toggling if signups are %open or %closed for this %node_type. Other signup-related settings can be defined at the !signup_settings tab.', array('!signup_admin' => !empty($node->signup) ? l(t('Signups: Administer'), 'node/' . $node->nid . '/signups/admin') : drupal_placeholder(t('Signups: Administer')), '!signup_settings' => !empty($node->signup) ? l(t('Signups: Settings'), 'node/' . $node->nid . '/signups/settings') : drupal_placeholder(t('Signups: Settings')), '%open' => t('open'), '%closed' => t('closed'), '%node_type' => node_type_get_name($node_type))),
     );
     $form['signup']['signup_user_reg'] = array(
       '#type' => 'checkbox',
       '#title' => t('Users can sign up for this event from the user registration form.'),
       '#description' => t('If selected, new users will be able to sign up for this event when they register.'),
-      '#default_value' => $node->signup_user_reg_form,
+      '#default_value' => isset($node) ? $node->signup_user_reg_form : NULL,
     );
   }
 }
