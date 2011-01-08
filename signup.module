@@ -811,7 +811,7 @@ function signup_form_node_type_form_alter(&$form, &$form_state) {
  */
 function signup_node_insert($node) {
   module_load_include('inc', 'signup', 'includes/node_form');
-  signup_save_node($node, $op);
+  signup_save_node($node, 'insert');
 }
 
 /**
@@ -819,7 +819,7 @@ function signup_node_insert($node) {
  */
 function signup_node_update($node) {
   module_load_include('inc', 'signup', 'includes/node_form');
-  signup_save_node($node, $op);
+  signup_save_node($node, 'update');
 }
 
 /**
