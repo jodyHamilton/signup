@@ -1,4 +1,7 @@
 <?php
+// $Id$
+
+
 /**
 * @file
 * Tests for the signup module
