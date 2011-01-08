@@ -13,7 +13,7 @@
  * information, see the README.txt and INSTALL.txt files in this directory.
  */
 
- 
+
 /**
  * @defgroup signup_core Core drupal hooks
  */
@@ -267,7 +267,7 @@ function signup_help($path, $arg) {
   // doesn't contain 'help#' since hook_help() is invoked twice on admin
   // pages.
   if (!empty($arg[0]) && $arg[0] == 'admin' && $arg[1] == 'content'
-     && function_exists('signup_date_check_node_types')
+      && function_exists('signup_date_check_node_types')
   ) {
     if ($arg[2] == 'types' && $arg[3] != 'add') {
       signup_date_check_node_types();
@@ -704,7 +704,7 @@ function signup_user_cancel($edit, $account, $method) {
  */
 function signup_user_insert(&$edit, $account, $category) {
   if (!empty($edit['signup'])) {
-    foreach($edit['signup'] as $nid => $value) {
+    foreach ($edit['signup'] as $nid => $value) {
       if ($value) {
         $signup_form = array();
         $signup_form['nid'] = $nid;
@@ -897,9 +897,9 @@ function signup_node_view($node, $view_mode = 'full') {
           $weight = variable_get('signup_info_node_weight_' . $node->type, 10);
         }
         $node->content['signup'] = array(
-              '#markup' => $signup_info,
-              '#weight' => $weight,
-            );
+          '#markup' => $signup_info,
+          '#weight' => $weight,
+        );
       }
     }
     if ($list_location == 'embed-view') {
@@ -914,9 +914,9 @@ function signup_node_view($node, $view_mode = 'full') {
           $weight = variable_get('signup_list_node_weight_' . $node->type, 11);
         }
         $node->content['signup_list'] = array(
-              '#markup' => $signup_list,
-              '#weight' => $weight,
-            );
+          '#markup' => $signup_list,
+          '#weight' => $weight,
+        );
       }
     }
   }

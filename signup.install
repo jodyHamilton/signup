@@ -196,27 +196,27 @@ function signup_uninstall() {
  */
 function signup_insert_default_signup_info() {
   /*return db_query("INSERT INTO {signup} (nid, forwarding_email,
-    send_confirmation, confirmation_email,
-    send_reminder, reminder_days_before, reminder_email,
-    close_in_advance_time, close_signup_limit, status, user_reg_form) VALUES (0, '',
-    1, 'Enter your default confirmation email message here',
-    1, 1, 'Enter your default reminder email message here',
-    0, 0, 1, 0)");*/
+   send_confirmation, confirmation_email,
+   send_reminder, reminder_days_before, reminder_email,
+   close_in_advance_time, close_signup_limit, status, user_reg_form) VALUES (0, '',
+   1, 'Enter your default confirmation email message here',
+   1, 1, 'Enter your default reminder email message here',
+   0, 0, 1, 0)");*/
 
   return $id = db_insert('signup')
     ->fields(array(
-      'nid' => 0,
-      'forwarding_email' => '',
-      'send_confirmation' => 1,
-      'confirmation_email' => 'Enter your default confirmation email message here',
-      'send_reminder' => 1,
-      'reminder_days_before' => 1,
-      'reminder_email' => 'Enter your default reminder email message here',
-      'close_in_advance_time' => 0,
-      'close_signup_limit' => 0,
-      'status' => 1,
-      'user_reg_form' => 0,
-    ))
+    'nid' => 0,
+    'forwarding_email' => '',
+    'send_confirmation' => 1,
+    'confirmation_email' => 'Enter your default confirmation email message here',
+    'send_reminder' => 1,
+    'reminder_days_before' => 1,
+    'reminder_email' => 'Enter your default reminder email message here',
+    'close_in_advance_time' => 0,
+    'close_signup_limit' => 0,
+    'status' => 1,
+    'user_reg_form' => 0,
+  ))
     ->execute();
 }
 
@@ -464,8 +464,11 @@ function signup_update_5204() {
       '%user_name' => '%user_name',
       '%user_mail' => '%user_mail',
       '%user_signup_info' => '%user_signup_info',
-      );
-    $ret[] = array('success' => TRUE, 'query' => t('Replaced %event, %eventurl, %time, %username, %useremail, and %info tokens with %node_title, %node_url, %node_start_time, %user_name, %user_mail, and %user_signup_info in the reminder and confirmation email templates.', $tokens));
+    );
+    $ret[] = array(
+      'success' => TRUE,
+      'query' => t('Replaced %event, %eventurl, %time, %username, %useremail, and %info tokens with %node_title, %node_url, %node_start_time, %user_name, %user_mail, and %user_signup_info in the reminder and confirmation email templates.', $tokens),
+    );
   }
   else {
     // Report how much is left to complete.

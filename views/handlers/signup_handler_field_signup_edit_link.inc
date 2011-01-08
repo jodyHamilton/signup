@@ -7,8 +7,14 @@
 class signup_handler_field_signup_edit_link extends views_handler_field_node_link {
   function construct() {
     parent::construct();
-    $this->additional_fields['sid'] = array('table' => 'signup_log', 'field' => 'sid');
-    $this->additional_fields['uid'] = array('table' => 'signup_log', 'field' => 'uid');
+    $this->additional_fields['sid'] = array(
+      'table' => 'signup_log',
+      'field' => 'sid',
+    );
+    $this->additional_fields['uid'] = array(
+      'table' => 'signup_log',
+      'field' => 'uid',
+    );
   }
 
   function render($values) {

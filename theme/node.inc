@@ -78,5 +78,5 @@ function theme_signup_node_title($node) {
     }
   }
 
-  return l($node->title, 'node/'. $node->nid) . $date_formatted;
+  return l($node->title, 'node/' . $node->nid) . $date_formatted;
 }

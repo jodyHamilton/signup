@@ -26,7 +26,10 @@ function signup_node_admin_summary_form($form, $form_state, $node) {
     $form['status'] = array(
       '#type' => 'select',
       '#title' => t('Signups are'),
-      '#options' => array(0 => t('Closed'), 1 => t('Open')),
+      '#options' => array(
+        0 => t('Closed'),
+        1 => t('Open'),
+      ),
       '#default_value' => $node->signup_status,
     );
     $form['submit'] = array(

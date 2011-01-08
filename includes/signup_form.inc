@@ -23,8 +23,14 @@
 function signup_form($form, &$form_state, $node, $signup_type = 'auth', $fieldset = TRUE) {
   global $user;
 
-  $form['nid'] = array('#type' => 'value', '#value' => $node->nid);
-  $form['uid'] = array('#type' => 'value', '#value' => $user->uid);
+  $form['nid'] = array(
+    '#type' => 'value',
+    '#value' => $node->nid,
+  );
+  $form['uid'] = array(
+    '#type' => 'value',
+    '#value' => $user->uid,
+  );
 
   if ($fieldset) {
     $form['collapse'] = array(

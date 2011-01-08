@@ -90,7 +90,10 @@ function signup_settings_form() {
   $form['adv_settings']['signup_fieldset_collapsed'] = array(
     '#title' => t('Default fieldset behavior for per-node signup form'),
     '#type' => 'radios',
-    '#options' => array(1 => t('Collapsed'), 0 => t('Expanded')),
+    '#options' => array(
+      1 => t('Collapsed'),
+      0 => t('Expanded'),
+    ),
     '#default_value' => variable_get('signup_fieldset_collapsed', 1),
     '#description' => t('If the signup form is included on each node, the signup form will be encapsulated in a collapsible fieldset. This setting controls if that fieldset is expanded or collapsed by default.'),
     '#prefix' => '<div class="' . $class . '">',
@@ -197,30 +200,30 @@ function signup_settings_form_submit($form, &$form_state) {
   if ($op == t('Save configuration') && db_query('SELECT COUNT(*) FROM {signup} WHERE nid = 0')->fetchField()) {
     db_update('signup')
       ->fields(array(
-          'forwarding_email' => $form_state['values']['signup_forwarding_email'],
-          'send_confirmation' => $form_state['values']['signup_send_confirmation'],
-          'confirmation_email' => $form_state['values']['signup_confirmation_email'],
-          'close_signup_limit' => $form_state['values']['signup_close_signup_limit'],
-          'reminder_days_before' => isset($form_state['values']['signup_reminder_days_before']) ? $form_state['values']['signup_reminder_days_before'] : 0,
-          'send_reminder' => isset($form_state['values']['signup_send_reminder']) ? $form_state['values']['signup_send_reminder'] : 0,
-          'reminder_email' => isset($form_state['values']['signup_reminder_email']) ? $form_state['values']['signup_reminder_email'] : '',
-        ))
+      'forwarding_email' => $form_state['values']['signup_forwarding_email'],
+      'send_confirmation' => $form_state['values']['signup_send_confirmation'],
+      'confirmation_email' => $form_state['values']['signup_confirmation_email'],
+      'close_signup_limit' => $form_state['values']['signup_close_signup_limit'],
+      'reminder_days_before' => isset($form_state['values']['signup_reminder_days_before']) ? $form_state['values']['signup_reminder_days_before'] : 0,
+      'send_reminder' => isset($form_state['values']['signup_send_reminder']) ? $form_state['values']['signup_send_reminder'] : 0,
+      'reminder_email' => isset($form_state['values']['signup_reminder_email']) ? $form_state['values']['signup_reminder_email'] : '',
+    ))
       ->condition('nid', 0)
       ->execute();
-      /*
-    $values = array(
-      $form_state['values']['signup_forwarding_email'],
-      $form_state['values']['signup_send_confirmation'],
-      $form_state['values']['signup_confirmation_email'],
-      $form_state['values']['signup_close_signup_limit'],
-    );
-    $values[] = isset($form_state['values']['signup_send_reminder']) ? $form_state['values']['signup_send_reminder'] : 0;
-    $values[] = isset($form_state['values']['signup_reminder_days_before']) ? $form_state['values']['signup_reminder_days_before'] : 0;
-    $values[] = isset($form_state['values']['signup_reminder_email']) ? $form_state['values']['signup_reminder_email'] : '';
-    $values[] = 0; // "nid" of the row in {signup} for the global settings.
-    db_query("UPDATE {signup} SET forwarding_email = '%s', send_confirmation = %d, confirmation_email = '%s', close_signup_limit = %d, send_reminder = %d, reminder_days_before = %d, reminder_email = '%s' WHERE nid = %d", $values);
-       *
-       */
+    /*
+     $values = array(
+     $form_state['values']['signup_forwarding_email'],
+     $form_state['values']['signup_send_confirmation'],
+     $form_state['values']['signup_confirmation_email'],
+     $form_state['values']['signup_close_signup_limit'],
+     );
+     $values[] = isset($form_state['values']['signup_send_reminder']) ? $form_state['values']['signup_send_reminder'] : 0;
+     $values[] = isset($form_state['values']['signup_reminder_days_before']) ? $form_state['values']['signup_reminder_days_before'] : 0;
+     $values[] = isset($form_state['values']['signup_reminder_email']) ? $form_state['values']['signup_reminder_email'] : '';
+     $values[] = 0; // "nid" of the row in {signup} for the global settings.
+     db_query("UPDATE {signup} SET forwarding_email = '%s', send_confirmation = %d, confirmation_email = '%s', close_signup_limit = %d, send_reminder = %d, reminder_days_before = %d, reminder_email = '%s' WHERE nid = %d", $values);
+     *
+     */
   }
   else {
     module_load_include('install', 'signup', 'signup');

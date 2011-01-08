@@ -31,7 +31,7 @@
 function signup_block_info() {
   $blocks['current']['info'] = t('Current signups');
   $blocks['recent']['info'] = t('Recent signups');
-  return $blocks; 
+  return $blocks;
 }
 
 /**
@@ -168,7 +168,7 @@ function theme_signups_recent_block($variables) {
     $form_data = unserialize($signup->form_data);
     $row = array();
     $row[] = array(
-      'data' => '<div>' . l($signup->title, 'node/' . $signup->nid . '/signups') . '</div><div>' . check_plain($form_data['Name']). '</div>',
+      'data' => '<div>' . l($signup->title, 'node/' . $signup->nid . '/signups') . '</div><div>' . check_plain($form_data['Name']) . '</div>',
     );
     $row[] = array(
       'data' => l(t('edit'), 'signup/edit/' . $signup->sid, $l_options),

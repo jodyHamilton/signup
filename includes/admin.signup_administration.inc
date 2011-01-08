@@ -46,7 +46,10 @@ function signup_filter_status_form($form, &$form_state) {
     '#options' => $options,
     '#default_value' => $_SESSION['signup_status_filter'],
   );
-  $form['submit'] = array('#type' => 'submit', '#value' => t('Filter'));
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Filter'),
+  );
   //  $form['#redirect'] = FALSE;
   return $form;
 }
@@ -66,10 +69,23 @@ function signup_admin_form($form, $form_state) {
   $access_broadcast = user_access('email all signed up users');
 
   $header = array(
-    array('data' => t('Title'), 'field' => 'n.title', 'sort' => 'asc'),
-    array('data' => t('Signups'), 'field' => 'signup_total'),
-    array('data' => t('Limit'), 'field' => 'signup_close_signup_limit'),
-    array('data' => t('Status'), 'field' => 'signup_status'),
+    array(
+      'data' => t('Title'),
+      'field' => 'n.title',
+      'sort' => 'asc',
+    ),
+    array(
+      'data' => t('Signups'),
+      'field' => 'signup_total',
+    ),
+    array(
+      'data' => t('Limit'),
+      'field' => 'signup_close_signup_limit',
+    ),
+    array(
+      'data' => t('Status'),
+      'field' => 'signup_status',
+    ),
     array('data' => t('Operations')),
   );
 

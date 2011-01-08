@@ -43,13 +43,13 @@ function _signup_date_admin_sql($content_type) {
 function signup_field_names($content_type = NULL) {
   $fields = array();
   /*$content_type_info = _content_type_info();
-  if ($content_type_info['content types'][$content_type]) {
-    foreach ($content_type_info['content types'][$content_type]['fields'] as $field) {
-      if (in_array($field['type'], array('date', 'datestamp', 'datetime'))) {
-        $fields[$field['field_name']] = $field['widget']['label'];
-      }
-    }
-  }*/
+   if ($content_type_info['content types'][$content_type]) {
+   foreach ($content_type_info['content types'][$content_type]['fields'] as $field) {
+   if (in_array($field['type'], array('date', 'datestamp', 'datetime'))) {
+   $fields[$field['field_name']] = $field['widget']['label'];
+   }
+   }
+   }*/
 
   /* TODO: Test if this works, and if this is the optimum way of retrieving
    * this information.
@@ -337,7 +337,7 @@ function _signup_date_reminder_sql($content_type) {
   // Create SQL to represent the time we should start sending reminders, based
   // on the SQL for the start time and the reminder_days_before field.
   $reminder_start = $handler->sql_date_math($start_time, 'SUB', 's.reminder_days_before', 'DAY');
-  $reminder_stop = $handler->sql_date_math($start_time, 'ADD', 1, 'HOUR');// Get a DateAPI SQL handler class for this field.
+  $reminder_stop = $handler->sql_date_math($start_time, 'ADD', 1, 'HOUR'); // Get a DateAPI SQL handler class for this field.
 
   // The WHERE clauses are now trivial: We want to make sure a) the current
   // time is after the time we should start sending reminders, but before the

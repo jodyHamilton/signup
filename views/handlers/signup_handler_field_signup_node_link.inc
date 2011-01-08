@@ -7,8 +7,14 @@
 class signup_handler_field_signup_node_link extends views_handler_field_node_link {
   function construct() {
     parent::construct();
-    $this->additional_fields['uid'] = array('table' => 'node', 'field' => 'uid');
-    $this->additional_fields['signup_status'] = array('table' => 'signup', 'field' => 'status');
+    $this->additional_fields['uid'] = array(
+      'table' => 'node',
+      'field' => 'uid',
+    );
+    $this->additional_fields['signup_status'] = array(
+      'table' => 'signup',
+      'field' => 'status',
+    );
   }
 
   function options_form(&$form, &$form_state) {
