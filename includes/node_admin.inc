@@ -47,3 +47,4 @@ function signup_node_admin_page($node) {
 
   return theme('signup_node_admin_page', array('node' => $node, 'signup_node_admin_summary_form' => $signup_node_admin_summary_form, 'signup_node_admin_details_form' => $signup_node_admin_details_form));
 }
+

@@ -10,7 +10,7 @@
 /**
  * Form builder for the settings page under admin/config/people/signup
  */
-function signup_settings_form() {
+function signup_settings_form($form, &$form_state) {
   module_load_include('inc', 'signup', 'includes/node_settings');
   if (signup_site_has_dates()) {
     $form['signup_close_early'] = array(
@@ -67,14 +67,12 @@ function signup_settings_form() {
     '#prefix' => '<div class="signup-form-location-radios">',
     '#suffix' => '</div>',
   );
-
   $form['adv_settings']['signup_user_reg_form'] = array(
     '#title' => t('Allow registering users to sign up for nodes from the user registration form'),
     '#type' => 'checkbox',
     '#default_value' => variable_get('signup_user_reg_form', 0),
     '#description' => t('Users will see a checkbox for each event that they sign up for. Note that these checkboxes will appear even if anonymous users lack the "sign up for content" permission because they will be signed up once their account has been created and they are registered users.'),
   );
-
   // The rest of the advanced settings are conditional on if/where the signup
   // form is being displayed.  We use jQuery to hide settings when they're not
   // relevant.
@@ -150,7 +148,10 @@ function signup_settings_form() {
       if ($display_id != 'default' || 1) {
         $key = $view->name . ':' . $display_id;
         // TODO Please change this theme call to use an associative array for the $variables parameter.
-        $view_options[$key] = theme('signup_settings_view_label', $view, $display_id);
+        $view_options[$key] = theme('signup_settings_view_label', array(
+          'view' => $view,
+          'display_id' => $display_id,
+        ));
       }
     }
   }
@@ -198,6 +199,7 @@ function signup_settings_form() {
 function signup_settings_form_submit($form, &$form_state) {
   $op = isset($form_state['values']['op']) ? $form_state['values']['op'] : '';
   if ($op == t('Save configuration') && db_query('SELECT COUNT(*) FROM {signup} WHERE nid = 0')->fetchField()) {
+    // TODO Please review the conversion of this statement to the D7 database API syntax.
     db_update('signup')
       ->fields(array(
       'forwarding_email' => $form_state['values']['signup_forwarding_email'],
@@ -227,6 +229,8 @@ function signup_settings_form_submit($form, &$form_state) {
   }
   else {
     module_load_include('install', 'signup', 'signup');
+    // TODO Please review the conversion of this statement to the D7 database API syntax.
+    /* db_query("DELETE FROM {signup} WHERE nid = 0") */
     db_delete('signup')
       ->condition('nid', 0)
       ->execute();

@@ -157,6 +157,7 @@ function signup_theme() {
       'path' => drupal_get_path('module', 'signup') . '/includes',
       'variables' => array(
         'view' => NULL,
+        'display_id' => NULL,
       ),
     ),
   );
