@@ -150,10 +150,10 @@ function signup_validate_anon_email($nid, $anon_mail, $name = FALSE) {
   if (!valid_email_address($anon_mail)) {
     $message = t('Invalid email address entered for signup.');
   }
-  elseif (db_query("SELECT COUNT(*) FROM {users} WHERE mail = :mail", array(':mail' => $anon_mail))->fetchField()) {
+  elseif ((bool) db_query_range("SELECT 1 FROM {users} WHERE mail = :mail", 0, 1, array(':mail' => $anon_mail))->fetchField()) {
     $message = t('The email address entered belongs to a registered user.');
   }
-  elseif (db_query("SELECT COUNT(*) FROM {signup_log} WHERE anon_mail = :mail AND nid = :nid", array(':mail' => $anon_mail, ':nid' => $nid))->fetchField()) {
+  elseif ((bool) db_query_range("SELECT 1 FROM {signup_log} WHERE anon_mail = :mail AND nid = :nid", 0, 1, array(':mail' => $anon_mail, ':nid' => $nid))->fetchField()) {
     $node = node_load($nid);
     $message = t('The email address entered has already been used to sign up for this %node_type.', array('%node_type' => node_type_get_name($node->type)));
   }
@@ -188,7 +188,7 @@ function signup_form_validate_username($form, $form_state) {
   if (empty($account)) {
     form_set_error('signup_username', t('User %user_name does not exist.', array('%user_name' => $username)));
   }
-  elseif (db_query("SELECT COUNT(*) FROM {signup_log} WHERE uid = :uid AND nid = :nid", array(':uid' => $account->uid, ':nid' => $nid))->fetchField() > 0) {
+  elseif ((bool) db_query_range("SELECT 1 FROM {signup_log} WHERE uid = :uid AND nid = :nid", 0, 1, array(':uid' => $account->uid, ':nid' => $nid))->fetchField() > 0) {
     $node = node_load($nid);
     form_set_error('signup_username', t('User !user is already signed up for %title', array('!user' => theme('username', array('account' => $account)), '%title' => $node->title)));
   }

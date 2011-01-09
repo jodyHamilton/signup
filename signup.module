@@ -711,6 +711,7 @@ function signup_user_insert(&$edit, $account, $category) {
 /**
  * Implements hook_form_FORM_ID_alter().
  *
+ * @todo: check if this actually works...
  * @ingroup signup_core
  */
 function signup_form_user_register_alter(&$form, &$form_state, $form_id) {
@@ -866,7 +867,7 @@ function signup_node_load($nodes, $types) {
 }
 
 /**
- * Implements hook_node_view.
+ * Implements hook_node_view().
  */
 function signup_node_view($node, $view_mode = 'full') {
   // If this is a signup node, figure out what (if anything) to print.
@@ -1039,19 +1040,6 @@ function signup_views_bulk_operations_object_info() {
       'title' => 'label',
     ),
   );
-}
-
-/**
- * Deprecated implmentation of hook_object_info().
- *
- * This is the old name for hook_views_bulk_operations_object_info().  It was
- * renamed in VBO at http://drupal.org/node/362534 to prevent possible
- * namespace colisions.  However, it means that modules supporting VBO need to
- * have both implementations during the transition while users upgrade to VBO
- * version 6.x-1.4.  Once 6.x-1.4 is ubiquitous, this can be removed.
- */
-function signup_object_info() {
-  return signup_views_bulk_operations_object_info();
 }
 
 /**
@@ -1337,7 +1325,7 @@ function signup_sign_up_user($signup_form, $notify_user = TRUE, $reset_node_load
     // Ensure the uid is 0 for anonymous signups, even if it's not duplicate.
     $signup_form['uid'] = 0;
     // Now, see if this email is already signed-up.
-    if (db_query("SELECT COUNT(*) FROM {signup_log} WHERE anon_mail = :mail AND nid = :nid", array(':mail' => $signup_anon_mail, ':nid' => $node->nid))->fetchField()) {
+    if ((bool) db_query_range("SELECT 1 FROM {signup_log} WHERE anon_mail = :mail AND nid = :nid", 0, 1, array(':mail' => $signup_anon_mail, ':nid' => $node->nid))->fetchField()) {
       drupal_set_message(t('Anonymous user %email is already signed up for %title', array('%email' => $signup_anon_mail, '%title' => $node->title), array('langcode' => 'error')));
       return FALSE;
     }

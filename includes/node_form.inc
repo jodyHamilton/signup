@@ -148,7 +148,7 @@ function signup_alter_node_form(&$form, &$form_state, $form_id) {
     // Figure out what the options should be.  If there are already
     // people signed-up for this node, we need a 3rd choice: disable
     // signups and remove all signup data.
-    $has_signups = !empty($node) && db_query("SELECT COUNT(*) from {signup_log} WHERE nid = :nid", array(':nid' => $node->nid))->fetchField();
+    $has_signups = !empty($node) && (bool) db_query_range("SELECT 1 from {signup_log} WHERE nid = :nid", 0, 1, array(':nid' => $node->nid))->fetchField();
     $radio_options[1] = t('Enabled');
     if ($has_signups) {
       $radio_options[0] = t('Disabled, but save existing signup information');

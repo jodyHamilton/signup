@@ -196,7 +196,7 @@ function signup_settings_form($form, &$form_state) {
  */
 function signup_settings_form_submit($form, &$form_state) {
   $op = isset($form_state['values']['op']) ? $form_state['values']['op'] : '';
-  if ($op == t('Save configuration') && db_query('SELECT COUNT(*) FROM {signup} WHERE nid = 0')->fetchField()) {
+  if ($op == t('Save configuration') && (bool) db_query_range('SELECT 1 FROM {signup} WHERE nid = :nid', 0, 1, array(':nid' => 0))->fetchField()) {
     // TODO Please review the conversion of this statement to the D7 database API syntax.
     db_update('signup')
       ->fields(array(
