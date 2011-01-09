@@ -7,7 +7,6 @@
  * Code for the page to cancel a signup from a secure link.
  */
 
-
 /**
  * @todo Please document this function.
  * @see http://drupal.org/node/1354
@@ -37,7 +36,7 @@ function signup_cancel_link_confirm_form($form, $form_state, $sid) {
   );
   $form['#submit'][] = 'signup_cancel_link_confirm_form_submit';
 
-  $abort_url = isset($_REQUEST['destination']) ? $_REQUEST['destination'] : "node/$info->nid";
+  $abort_url = isset($_GET['destination']) ? $_GET['destination'] : "node/$info->nid";
 
   // TODO: Should this include information to identify the username,
   // anon_mail, and possibly the custom signup form data, too?

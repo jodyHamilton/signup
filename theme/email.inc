@@ -97,3 +97,4 @@ function theme_signup_broadcast_sender_copy($raw_message, $cooked_message) {
   $output .= "\n----------\n\n";
   return $output;
 }
+

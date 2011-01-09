@@ -165,3 +165,4 @@ function signup_admin_sql($node_type) {
       return array();
   }
 }
+

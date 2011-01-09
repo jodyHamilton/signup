@@ -37,11 +37,15 @@ function signup_save_node($node, $op) {
   if ($op == 'update' && isset($node->signup_enabled)) {
     switch ($node->signup_enabled) {
       case 2: // Disabled, and delete {signup_log}, too
+        // TODO Please review the conversion of this statement to the D7 database API syntax.
+        /* db_query("DELETE FROM {signup_log} WHERE nid = %d", $node->nid) */
         db_delete('signup_log')
           ->condition('nid', $node->nid)
           ->execute();
         // No break, fall through and remove from {signup} too.
       case 0: // Disabled, but leave {signup_log} alone
+        // TODO Please review the conversion of this statement to the D7 database API syntax.
+        /* db_query("DELETE FROM {signup} WHERE nid = %d", $node->nid) */
         db_delete('signup')
           ->condition('nid', $node->nid)
           ->execute();

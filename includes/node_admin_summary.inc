@@ -7,12 +7,11 @@
  * Code related to the signup administration tab on each node.
  */
 
-
 /**
  * @todo Please document this function.
  * @see http://drupal.org/node/1354
  */
-function signup_node_admin_summary_form($form, $form_state, $node) {
+function signup_node_admin_summary_form($form, &$form_state, $node) {
   if ($node->signup_close_signup_limit &&
     $node->signup_effective_total >= $node->signup_close_signup_limit
   ) {
@@ -69,9 +68,12 @@ function signup_node_admin_summary_form_submit($form, &$form_state) {
   $node = node_load($nid);
   $limit_status = 0;
   if (isset($form_state['values']['limit']) && ($form_state['values']['limit'] != $node->signup_close_signup_limit)) {
-    //db_query("UPDATE {signup} SET close_signup_limit = %d WHERE nid = %d", $form_state['values']['limit'], $nid);
+    // TODO Please review the conversion of this statement to the D7 database API syntax.
+    /* db_query("UPDATE {signup} SET close_signup_limit = %d WHERE nid = %d", $form_state['values']['limit'], $nid) */
     db_update('signup')
-      ->fields(array('close_signup_limit' => $form_state['values']['limit']))
+      ->fields(array(
+          'close_signup_limit' => $form_state['values']['limit'],
+        ))
       ->condition('nid', $nid)
       ->execute();
     $node->signup_close_signup_limit = $form_state['values']['limit'];
@@ -91,3 +93,4 @@ function signup_node_admin_summary_form_submit($form, &$form_state) {
     }
   }
 }
+

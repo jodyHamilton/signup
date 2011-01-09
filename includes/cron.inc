@@ -49,7 +49,7 @@ function _signup_cron_send_reminders() {
     // the signup log to pull all users who are signed up for this node.
     foreach ($result as $node) {
       $subject = t('!node_type reminder: !title', array('!node_type' => node_type_get_name($type), '!title' => $node->title));
-      $signups = db_query("SELECT u.name, u.mail, s_l.sid, s_l.anon_mail, s_l.form_data FROM {signup_log} s_l INNER JOIN {users} u ON u.uid = s_l.uid WHERE s_l.nid = %d", $node->nid);
+      $signups = db_query("SELECT u.name, u.mail, s_l.sid, s_l.anon_mail, s_l.form_data FROM {signup_log} s_l INNER JOIN {users} u ON u.uid = s_l.uid WHERE s_l.nid = :s_l.nid", array(':s_l.nid' => $node->nid));
 
       // Loop through the users, composing their customized message
       // and sending the email.
@@ -71,7 +71,6 @@ function _signup_cron_send_reminders() {
 
       // Reminders for this node are all sent, so mark it in the
       // database so they're not sent again.
-
       // TODO Please review the conversion of this statement to the D7 database API syntax.
       /* db_query("UPDATE {signup} SET send_reminder = 0 WHERE nid = %d", $node->nid) */
       db_update('signup')
@@ -116,6 +115,7 @@ function _signup_cron_autoclose() {
 
   foreach ($type_autoclose_sql as $type => $autoclose_sql) {
     $sql = _signup_build_query($autoclose_common_sql, $autoclose_sql);
+    // TODO Please convert this statement to the D7 database API syntax.
     $result = db_query($sql, $type);
 
     // Loop through the results, calling the signup closing function.

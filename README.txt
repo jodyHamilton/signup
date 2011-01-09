@@ -42,3 +42,4 @@ For a list of future work, also see http://groups.drupal.org/node/5044.
 This module was originally co-developed by Chad Phillips and Jeff
 Robbins, and sponsored by Jeff Robbins.  It is now being maintained
 by: Derek Wright (http://drupal.org/user/46549) a.k.a. "dww".
+

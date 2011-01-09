@@ -183,6 +183,7 @@ function signup_uninstall() {
   // Remove tables.
   // TODO The drupal_(un)install_schema functions are called automatically in D7.
   // drupal_uninstall_schema('signup')
+  // TODO Please review the conversion of this statement to the D7 database API syntax.
   $variables = db_query("SELECT name FROM {variable} WHERE name LIKE :name", array(':name' => 'signup%'))->fetchCol();
   foreach ($variables as $variable) {
     variable_del($variable);
@@ -195,16 +196,16 @@ function signup_uninstall() {
  * settings for new signup-enabled nodes.
  */
 function signup_insert_default_signup_info() {
-  /*return db_query("INSERT INTO {signup} (nid, forwarding_email,
+  // TODO Please review the conversion of this statement to the D7 database API syntax.
+  /* db_query("INSERT INTO {signup} (nid, forwarding_email,
    send_confirmation, confirmation_email,
    send_reminder, reminder_days_before, reminder_email,
    close_in_advance_time, close_signup_limit, status, user_reg_form) VALUES (0, '',
    1, 'Enter your default confirmation email message here',
    1, 1, 'Enter your default reminder email message here',
-   0, 0, 1, 0)");*/
-
+   0, 0, 1, 0)") */
   return $id = db_insert('signup')
-    ->fields(array(
+  ->fields(array(
     'nid' => 0,
     'forwarding_email' => '',
     'send_confirmation' => 1,
@@ -217,12 +218,12 @@ function signup_insert_default_signup_info() {
     'status' => 1,
     'user_reg_form' => 0,
   ))
-    ->execute();
+  ->execute();
 }
 
 /**
- * @todo Please insert a Doxygen style comment for this hook_update_N.
- *
+ * @todo Please document this function.
+ * @see http://drupal.org/node/1354
  */
 function signup_update_3() {
   $ret = array();
@@ -230,21 +231,25 @@ function signup_update_3() {
     case 'mysql':
     case 'mysqli':
       // TODO update_sql has been removed. Use the database API for any schema or data changes.
-      $ret[] = update_sql("ALTER TABLE {signup_log} ADD anon_mail VARCHAR( 255 ) NOT NULL default '' AFTER nid;");
-      $ret[] = update_sql("ALTER TABLE {signup_log} DROP INDEX uid_nid;");
-      $ret[] = update_sql("ALTER TABLE {signup_log} ADD INDEX (uid);");
-      $ret[] = update_sql("ALTER TABLE {signup_log} ADD INDEX (nid);");
+      $ret[] = array() /* update_sql("ALTER TABLE {signup_log} ADD anon_mail VARCHAR( 255 ) NOT NULL default '' AFTER nid;") */;
+      // TODO update_sql has been removed. Use the database API for any schema or data changes.
+      $ret[] = array() /* update_sql("ALTER TABLE {signup_log} DROP INDEX uid_nid;") */;
+      // TODO update_sql has been removed. Use the database API for any schema or data changes.
+      $ret[] = array() /* update_sql("ALTER TABLE {signup_log} ADD INDEX (uid);") */;
+      // TODO update_sql has been removed. Use the database API for any schema or data changes.
+      $ret[] = array() /* update_sql("ALTER TABLE {signup_log} ADD INDEX (nid);") */;
       break;
 
     case 'pgsql':
       db_add_column($ret, 'signup_log', 'anon_mail', 'text', array('not null' => TRUE, 'default' => "''"));
       // TODO update_sql has been removed. Use the database API for any schema or data changes.
-      $ret[] = update_sql("DROP INDEX {signup_log}_uid_nid_idx;");
-      $ret[] = update_sql("CREATE INDEX {signup_log}_uid_idx ON {signup_log}(uid);");
-      $ret[] = update_sql("CREATE INDEX {signup_log}_nid_idx ON {signup_log}(nid);");
+      $ret[] = array() /* update_sql("DROP INDEX {signup_log}_uid_nid_idx;") */;
+      // TODO update_sql has been removed. Use the database API for any schema or data changes.
+      $ret[] = array() /* update_sql("CREATE INDEX {signup_log}_uid_idx ON {signup_log}(uid);") */;
+      // TODO update_sql has been removed. Use the database API for any schema or data changes.
+      $ret[] = array() /* update_sql("CREATE INDEX {signup_log}_nid_idx ON {signup_log}(nid);") */;
       break;
   }
-
   // hook_update_N() no longer returns a $ret array. Instead, return
   // nothing or a translated string indicating the update ran successfully.
   // See http://drupal.org/node/224333#update_sql.
@@ -285,7 +290,8 @@ function signup_update_4() {
         drupal_set_message(t('The old %signup_user_view setting was enabled on your site, so the %view_all_signups permission has been added to the %authenticated_user role. Please consider customizing what roles have this permission on the !access_control page.', array('%signup_user_view' => t('Users can view signups'), '%view_all_signups' => 'view all signups', '%authenticated_user' => 'Authenticated user', '!access_control' => l(t('Access control'), '/admin/user/access'))));
       }
     }
-    $ret[] = update_sql("UPDATE {permission} SET perm = '$fixed_perm' WHERE rid = $role->rid");
+    // TODO update_sql has been removed. Use the database API for any schema or data changes.
+    $ret[] = array() /* update_sql("UPDATE {permission} SET perm = '$fixed_perm' WHERE rid = $role->rid") */;
   }
 
   // Remove the stale setting from the {variable} table in the DB.
@@ -308,7 +314,7 @@ function signup_update_5200() {
     case 'mysql':
     case 'mysqli':
       // TODO update_sql has been removed. Use the database API for any schema or data changes.
-      $ret[] = update_sql("ALTER TABLE {signup} ADD status int NOT NULL default '1'");
+      $ret[] = array() /* update_sql("ALTER TABLE {signup} ADD status int NOT NULL default '1'") */;
       break;
 
     case 'pgsql':
@@ -316,9 +322,13 @@ function signup_update_5200() {
       break;
   }
   // TODO update_sql has been removed. Use the database API for any schema or data changes.
-  $ret[] = update_sql("UPDATE {signup} SET status = (1 - completed)");
-  $ret[] = update_sql("ALTER TABLE {signup} DROP completed");
-  return $ret;
+  $ret[] = array() /* update_sql("UPDATE {signup} SET status = (1 - completed)") */;
+  // TODO update_sql has been removed. Use the database API for any schema or data changes.
+  $ret[] = array() /* update_sql("ALTER TABLE {signup} DROP completed") */;
+  // hook_update_N() no longer returns a $ret array. Instead, return
+  // nothing or a translated string indicating the update ran successfully.
+  // See http://drupal.org/node/224333#update_sql.
+  return t('TODO Add a descriptive string here to show in the UI.') /* $ret */;
 }
 
 /**
@@ -334,14 +344,14 @@ function signup_update_5201() {
   switch ($GLOBALS['db_type']) {
     case 'mysql':
     case 'mysqli':
-      if (!db_column_exists('signup', 'close_signup_limit')) {
+      if (!db_field_exists('signup', 'close_signup_limit')) {
         // TODO update_sql has been removed. Use the database API for any schema or data changes.
-        $ret[] = update_sql("ALTER TABLE {signup} ADD close_signup_limit int(10) unsigned NOT NULL default '0'");
+        $ret[] = array() /* update_sql("ALTER TABLE {signup} ADD close_signup_limit int(10) unsigned NOT NULL default '0'") */;
       }
       break;
 
     case 'pgsql':
-      if (!db_column_exists('signup', 'close_signup_limit')) {
+      if (!db_field_exists('signup', 'close_signup_limit')) {
         db_add_column($ret, 'signup', 'close_signup_limit', 'integer', array('not null' => TRUE, 'default' => "'0'"));
       }
       break;
@@ -362,12 +372,12 @@ function signup_update_5202() {
     case 'mysql':
     case 'mysqli':
       // TODO update_sql has been removed. Use the database API for any schema or data changes.
-      $ret[] = update_sql("UPDATE {permission} SET perm = CONCAT(perm, ', cancel own signups') WHERE CONCAT(perm, ', ') LIKE '%%sign up for content, %%'");
+      $ret[] = array() /* update_sql("UPDATE {permission} SET perm = CONCAT(perm, ', cancel own signups') WHERE CONCAT(perm, ', ') LIKE '%%sign up for content, %%'") */;
       break;
 
     case 'pgsql':
       // TODO update_sql has been removed. Use the database API for any schema or data changes.
-      $ret[] = update_sql("UPDATE {permission} SET perm = perm || ', cancel own signups' WHERE perm || ', ' LIKE '%%sign up for content, %%'");
+      $ret[] = array() /* update_sql("UPDATE {permission} SET perm = perm || ', cancel own signups' WHERE perm || ', ' LIKE '%%sign up for content, %%'") */;
       break;
   }
   drupal_set_message(t("Added the 'cancel own signups' permission to all roles that have the 'sign up for content' permission.") . '<br />' . t('If you do not want your users to cancel their own signups, go to the <a href="@access_url">Access control</a> page and unset this permission.', array('@access_url' => url('/admin/user/access'))));
@@ -383,6 +393,7 @@ function signup_update_5202() {
  */
 function signup_update_5203() {
   $old_prefix = 'signup_form_';
+  // TODO Please convert this statement to the D7 database API syntax.
   $result = db_query("SELECT name FROM {variable} WHERE name LIKE '$old_prefix%%'");
   while ($row = db_fetch_object($result)) {
     $old_name = $row->name;
@@ -601,7 +612,7 @@ function signup_update_6005() {
     'not null' => TRUE,
     'default' => 0,
   );
-  db_add_field($ret, 'signup', 'user_reg_form', $field);
+  db_add_field('signup', 'user_reg_form', $field);
   // hook_update_N() no longer returns a $ret array. Instead, return
   // nothing or a translated string indicating the update ran successfully.
   // See http://drupal.org/node/224333#update_sql.

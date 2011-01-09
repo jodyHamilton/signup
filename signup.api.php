@@ -98,7 +98,7 @@ function hook_signup_update($signup) {
  */
 function hook_signup_sign_up($node, $account) {
   return array(
-    t('Node type') => node_get_types('name', $node->type),
+    t('Node type') => node_type_get_name($node->type),
     t('User created') => format_date($account->created),
   );
 }

@@ -50,7 +50,7 @@ function signup_filter_status_form($form, &$form_state) {
     '#type' => 'submit',
     '#value' => t('Filter'),
   );
-  //  $form['#redirect'] = FALSE;
+  //  $form_state['#redirect'] = FALSE;
   return $form;
 }
 

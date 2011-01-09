@@ -188,7 +188,7 @@ function signup_form_validate_username($form, $form_state) {
   if (empty($account)) {
     form_set_error('signup_username', t('User %user_name does not exist.', array('%user_name' => $username)));
   }
-  elseif (db_result(db_query("SELECT COUNT(*) FROM {signup_log} WHERE uid = %d AND nid = %d", $account->uid, $nid)) > 0) {
+  elseif (db_query("SELECT COUNT(*) FROM {signup_log} WHERE uid = :uid AND nid = :nid", array(':uid' => $account->uid, ':nid' => $nid))->fetchField() > 0) {
     $node = node_load($nid);
     form_set_error('signup_username', t('User !user is already signed up for %title', array('!user' => theme('username', array('account' => $account)), '%title' => $node->title)));
   }

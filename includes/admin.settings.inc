@@ -108,7 +108,7 @@ function signup_settings_form($form, &$form_state) {
     '#title' => t('How to display the list of signed-up users'),
     '#type' => 'radios',
     '#options' => $list_options,
-    '#default_value' => variable_get('signup_display_signup_user_list', 'signup'),
+    '#default_value' => variable_get('signup_display_signup_user_list', 'embed-view'),
     '#description' => t('Users with the %view_signups permission can be presented with a list of all users who have signed up. This setting controls if, how, and where that list should be generated. !views_help_text', array('%view_signups' => t('view all signups'), '!views_help_text' => $views_help_text)),
     '#prefix' => '<div class="signup-display-signup-user-list-setting">',
     '#suffix' => '</div>',
@@ -119,7 +119,6 @@ function signup_settings_form($form, &$form_state) {
     'embed-view' => t('Embed a view'),
     'none' => t('Do not display a listing at all'),
   );
-
   $form['adv_settings']['signup_display_signup_admin_list'] = array(
     '#title' => t('How to display the administrative list of signed-up users'),
     '#type' => 'radios',
@@ -147,7 +146,6 @@ function signup_settings_form($form, &$form_state) {
     foreach (array_keys($view->display) as $display_id) {
       if ($display_id != 'default' || 1) {
         $key = $view->name . ':' . $display_id;
-        // TODO Please change this theme call to use an associative array for the $variables parameter.
         $view_options[$key] = theme('signup_settings_view_label', array(
           'view' => $view,
           'display_id' => $display_id,

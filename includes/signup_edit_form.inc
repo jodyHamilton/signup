@@ -112,7 +112,7 @@ function signup_edit_form($form, &$form_state, $signup, $type) {
     );
   }
   if ($can_cancel) {
-    if (isset($_REQUEST['destination'])) {
+    if (isset($_GET['destination'])) {
       $destination = drupal_get_destination();
     }
     else {

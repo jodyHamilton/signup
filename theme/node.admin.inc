@@ -177,3 +177,4 @@ function theme_signup_attended_text($variables) {
     return t('Attended');
   }
 }
+

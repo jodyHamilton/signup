@@ -13,7 +13,6 @@
  * information, see the README.txt and INSTALL.txt files in this directory.
  */
 
-
 /**
  * @defgroup signup_core Core drupal hooks
  */
@@ -268,7 +267,7 @@ function signup_help($path, $arg) {
   // doesn't contain 'help#' since hook_help() is invoked twice on admin
   // pages.
   if (!empty($arg[0]) && $arg[0] == 'admin' && $arg[1] == 'content'
-      && function_exists('signup_date_check_node_types')
+     && function_exists('signup_date_check_node_types')
   ) {
     if ($arg[2] == 'types' && $arg[3] != 'add') {
       signup_date_check_node_types();
@@ -786,6 +785,7 @@ function signup_form_node_type_form_alter(&$form, &$form_state) {
     '#collapsed' => FALSE,
     '#group' => 'additional_settings',
   );
+
   $form['signup']['signup_node_default_state'] = array(
     '#type' => 'radios',
     '#title' => t('Signup options'),
@@ -808,7 +808,7 @@ function signup_form_node_type_form_alter(&$form, &$form_state) {
  */
 
 /**
- * Implements hook_node_insert.
+ * Implements hook_node_insert().
  */
 function signup_node_insert($node) {
   module_load_include('inc', 'signup', 'includes/node_form');
@@ -816,7 +816,7 @@ function signup_node_insert($node) {
 }
 
 /**
- * Implements hook_node_update.
+ * Implements hook_node_update().
  */
 function signup_node_update($node) {
   module_load_include('inc', 'signup', 'includes/node_form');
@@ -824,21 +824,24 @@ function signup_node_update($node) {
 }
 
 /**
- * Implements hook_node_delete.
+ * Implements hook_node_delete().
  */
 function signup_node_delete($node) {
   // Clean up the signup tables for the deleted node.
-  // TODO: Test
+  // TODO Please review the conversion of this statement to the D7 database API syntax.
+  /* db_query("DELETE FROM {signup} WHERE nid = %d", $node->nid) */
   db_delete('signup')
-    ->condition('nid', $node->nid)
-    ->execute();
+  ->condition('nid', $node->nid)
+  ->execute();
+  // TODO Please review the conversion of this statement to the D7 database API syntax.
+  /* db_query("DELETE FROM {signup_log} WHERE nid = %d", $node->nid) */
   db_delete('signup_log')
-    ->condition('nid', $node->nid)
-    ->execute();
+  ->condition('nid', $node->nid)
+  ->execute();
 }
 
 /**
- * Implements hook_node_load.
+ * Implements hook_node_load().
  */
 function signup_node_load($nodes, $types) {
   // Check for a signup for the given nodes.
@@ -994,10 +997,14 @@ function signup_cancel_action($signup) {
  *   table is directly UPDATE'ed in the database.
  */
 function signup_mark_attended_action(&$signup) {
+  // TODO Please review the conversion of this statement to the D7 database API syntax.
+  /* db_query("UPDATE {signup_log} SET attended = %d WHERE sid = %d", TRUE, $signup->sid) */
   db_update('signup_log')
-    ->fields(array('attended' => TRUE))
-    ->condition('sid', $signup->sid)
-    ->execute();
+  ->fields(array(
+    'attended' => TRUE,
+  ))
+  ->condition('sid', $signup->sid)
+  ->execute();
   $signup->attended = TRUE;
   watchdog('action', 'Marked signup @signup_id attended.', array('@signup_id' => $signup->sid));
 }
@@ -1013,10 +1020,14 @@ function signup_mark_attended_action(&$signup) {
  *   table is directly UPDATE'ed in the database.
  */
 function signup_mark_not_attended_action(&$signup) {
+  // TODO Please review the conversion of this statement to the D7 database API syntax.
+  /* db_query("UPDATE {signup_log} SET attended = %d WHERE sid = %d", FALSE, $signup->sid) */
   db_update('signup_log')
-    ->fields(array('attended' => FALSE))
-    ->condition('sid', $signup->sid)
-    ->execute();
+  ->fields(array(
+    'attended' => FALSE,
+  ))
+  ->condition('sid', $signup->sid)
+  ->execute();
   $signup->attended = FALSE;
   watchdog('action', 'Marked signup @signup_id did not attend.', array('@signup_id' => $signup->sid));
 }
@@ -1188,10 +1199,11 @@ function signup_cancel_signup($signup, $notify_user = TRUE) {
   module_invoke_all('signup_cancel', $signup, $node);
 
   // Delete the record from the {signup_log} table.
+  // TODO Please review the conversion of this statement to the D7 database API syntax.
+  /* db_query('DELETE FROM {signup_log} WHERE sid = %d', $signup->sid) */
   db_delete('signup_log')
-    ->condition('sid', $signup->sid)
-    ->execute();
-  //db_query('DELETE FROM {signup_log} WHERE sid = %d', $signup->sid);
+  ->condition('sid', $signup->sid)
+  ->execute();
   if ($notify_user) {
     drupal_set_message(t('Signup to !title cancelled.', array('!title' => l($node->title, "node/$node->nid"))));
   }
@@ -1223,11 +1235,14 @@ function signup_valid_token($token, $sid, $operation) {
  * @ingroup signup_callback
  */
 function signup_close_signup($nid, $cron = 'no') {
-  //db_query("UPDATE {signup} SET status = 0 WHERE nid = :nid", array(':nid' => $nid));
+  // TODO Please review the conversion of this statement to the D7 database API syntax.
+  /* db_query("UPDATE {signup} SET status = 0 WHERE nid = %d", $nid) */
   db_update('signup')
-    ->fields(array('status' => 0))
-    ->condition('nid', $nid)
-    ->execute();
+  ->fields(array(
+    'status' => 0,
+  ))
+  ->condition('nid', $nid)
+  ->execute();
   if ($cron == 'no') {
     $node = node_load($nid);
     foreach (module_implements('signup_close') as $module) {
@@ -1243,11 +1258,14 @@ function signup_close_signup($nid, $cron = 'no') {
  * @ingroup signup_callback
  */
 function signup_open_signup($nid, $cron = 'no') {
-  //db_query("UPDATE {signup} SET status = 1 WHERE nid = :nid", array(':nid' => $nid));
+  // TODO Please review the conversion of this statement to the D7 database API syntax.
+  /* db_query("UPDATE {signup} SET status = 1 WHERE nid = %d", $nid) */
   db_update('signup')
-    ->fields(array('status' => 1))
-    ->condition('nid', $nid)
-    ->execute();
+  ->fields(array(
+    'status' => 1,
+  ))
+  ->condition('nid', $nid)
+  ->execute();
   if ($cron == 'no') {
     $node = node_load($nid);
     foreach (module_implements('signup_open') as $module) {
