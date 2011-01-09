@@ -172,7 +172,7 @@ function signup_alter_node_form(&$form, &$form_state, $form_id) {
       '#type' => 'checkbox',
       '#title' => t('Users can sign up for this event from the user registration form.'),
       '#description' => t('If selected, new users will be able to sign up for this event when they register.'),
-      '#default_value' => isset($node) ? $node->signup_user_reg_form : NULL,
+      '#default_value' => isset($node->signup_user_reg_form) ? $node->signup_user_reg_form : NULL,
     );
   }
 }
