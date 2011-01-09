@@ -21,7 +21,7 @@ class signup_handler_field_signup_edit_link extends views_handler_field_node_lin
     global $user;
 
     // Check access to edit this signup.
-    $signup = new StdClass();
+    $signup = new stdClass();
     $signup->sid = $values->{$this->aliases['sid']};
     $signup->nid = $values->{$this->aliases['nid']};
     $signup->uid = $values->{$this->aliases['uid']};

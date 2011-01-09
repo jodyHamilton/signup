@@ -11,7 +11,7 @@
  */
 
 /**
- * Implementation of hook_views_data().
+ * Implements hook_views_data().
  */
 function signup_views_data() {
   // Define the base group of the signup table.  Fields that don't
@@ -306,7 +306,7 @@ function signup_views_data() {
 }
 
 /**
- * Implementation of hook_views_handlers().
+ * Implements hook_views_handlers().
  *
  * Register information about all of the views handlers provided by the Signup
  * module.
@@ -358,7 +358,7 @@ function signup_views_handlers() {
 }
 
 /**
- * Implementation of hook_views_plugins().
+ * Implements hook_views_plugins().
  */
 function signup_views_plugins() {
   $path = drupal_get_path('module', 'signup') . '/views/plugins';

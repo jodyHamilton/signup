@@ -42,7 +42,7 @@ class signup_handler_field_signup_node_link extends views_handler_field_node_lin
 
   function render($values) {
     $tab = $this->options['tab'];
-    $node = new StdClass();
+    $node = new stdClass();
     $node->nid = $values->{$this->aliases['nid']};
     $node->uid = $values->{$this->aliases['uid']};
     $node->signup_status = $values->{$this->aliases['signup_status']};
