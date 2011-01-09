@@ -10,6 +10,8 @@
 /**
  * Build the form for editing existing signups.
  *
+ * @param $form
+ *   An associative array containing the structure of the form.
  * @param $form_state
  *   The state of the form to build (not currently used).
  * @param $signup
@@ -20,9 +22,8 @@
  * @return
  *   The FAPI form array for the signup edit form.
  */
-function signup_edit_form($form_state, $signup, $type) {
+function signup_edit_form($form, &$form_state, $signup, $type) {
   global $user;
-  $form = array();
 
   $form['#signup'] = $signup;
   $node = node_load($signup->nid);
@@ -116,7 +117,7 @@ function signup_edit_form($form_state, $signup, $type) {
     }
     else {
       // If there's no destination already set, redirect to the node.
-      $destination = 'destination=' . urlencode("node/$signup->nid");
+      $destination = array('destination' => 'node/' . $signup->nid);
     }
     $signup_token = signup_get_token($signup->sid, 'cancel');
     $form['elements']['cancel-signup'] = array(
