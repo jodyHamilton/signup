@@ -27,6 +27,6 @@ Drupal.behaviors.enableSignupEditForm = {
       return false;
     }
   }
-}
+};
 
 })(jQuery);
