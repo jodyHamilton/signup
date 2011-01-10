@@ -45,8 +45,7 @@ function theme_signup_node_admin_page($variables) {
 /**
  * Renders the HTML for the per-node signup summary administrative form.
  */
-function theme_signup_node_admin_summary_form($variables) {
-  $form = $variables['form'];
+function theme_signup_node_admin_summary_form($form) {
   $output = '';
   $output .= '<div class="container-inline">' . drupal_render($form['status']);
   if (!empty($form['submit']) && $form['status']['#type'] == 'select') {
@@ -89,6 +88,7 @@ function theme_signup_node_admin_summary_form($variables) {
  */
 function theme_signup_node_admin_details_form($variables) {
   $form = $variables['form'];
+
   $fieldset = array(
     '#title' => t('Signup details'),
     '#collapsible' => TRUE,
@@ -138,6 +138,7 @@ function theme_signup_node_admin_details_form($variables) {
  */
 function theme_signup_custom_data($variables) {
   $data = $variables['data'];
+
   $output = '';
   // All of the possible array key values should already be translated as
   // string literals in theme_signup_user_form() via the #title attributes, so
@@ -167,6 +168,7 @@ function theme_signup_custom_data($variables) {
  */
 function theme_signup_attended_text($variables) {
   $attended = $variables['attended'];
+
   if ($attended === NULL) {
     return '';
   }

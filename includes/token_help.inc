@@ -36,7 +36,7 @@ function _signup_token_help(&$form, $element_name) {
 function _signup_build_token_help() {
   static $help_html = '';
   if (empty($help_html)) {
-    // TODO Please change this theme call to use an associative array for the $variables parameter.
+    // TODO: Why can't theme_token_help() be found in this module?!?!
     $help_html = theme('token_help', array('signup', 'node', 'global'));
   }
   return $help_html;

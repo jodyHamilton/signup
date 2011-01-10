@@ -109,7 +109,7 @@ function signup_settings_form($form, &$form_state) {
     '#type' => 'radios',
     '#options' => $list_options,
     '#default_value' => variable_get('signup_display_signup_user_list', 'embed-view'),
-    '#description' => t('Users with the %view_signups permission can be presented with a list of all users who have signed up. This setting controls if, how, and where that list should be generated. !views_help_text', array('%view_signups' => t('view all signups'), '!views_help_text' => $views_help_text)),
+    '#description' => t('Users with the %view_signups permission can be presented with a list of all users who have signed up. This setting controls if, how, and where that list should be generated. If you choose to embed a view, you will be able to select which view you want to use below. The view you select will have a single argument passed in, the node id (nid) of the signup-enabled node being viewed. You can also use views to display this listing on its own tab or in a block if you disable this setting.', array('%view_signups' => t('view all signups'))),
     '#prefix' => '<div class="signup-display-signup-user-list-setting">',
     '#suffix' => '</div>',
     '#weight' => 1,
@@ -274,7 +274,10 @@ function signup_settings_form_submit($form, &$form_state) {
  *
  * @see signup_settings_form()
  */
-function theme_signup_settings_view_label($view, $display_id) {
+function theme_signup_settings_view_label($variables) {
+  $view = $variables['view'];
+  $display_id = $variables['display_id'];
+
   $display_title = check_plain($view->display[$display_id]->display_title);
   $label = $view->name;
   $label .= ' [' . $display_title . ']: ';

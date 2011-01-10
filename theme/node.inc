@@ -24,6 +24,7 @@
  */
 function theme_signup_signups_closed($variables) {
   $node = $variables['node'];
+
   $current_signup = $variables['current_signup'];
   $output = '<h3>' . t('Signups closed for this %node_type', array('%node_type' => node_type_get_name($node->type))) . '</h3>';
   $output .= $current_signup;
@@ -67,7 +68,9 @@ function theme_signup_node_output_header($variables) {
 /**
  * Return HTML desired when displaying a node title along with the signup date.
  */
-function theme_signup_node_title($node) {
+function theme_signup_node_title($variables) {
+  $node = $variables['node'];
+
   $date_field = signup_date_field($node->type);
   if (!empty($date_field)) {
     $date_field_name = $date_field['field_name'];

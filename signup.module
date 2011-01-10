@@ -21,11 +21,14 @@
  * Implements hook_theme(), the theme registry().
  */
 function signup_theme() {
-  $path = drupal_get_path('module', 'signup') . '/theme';
+  $path = drupal_get_path('module', 'signup');
+  $theme_path = $path . '/theme';
+  $inc_path = $path . '/includes';
+
   return array(
     'signup_admin_page' => array(
       'file' => 'admin.inc',
-      'path' => $path,
+      'path' => $theme_path,
       'variables' => array(
         'filter_status_form' => NULL,
         'signup_admin_form' => NULL,
@@ -33,31 +36,31 @@ function signup_theme() {
     ),
     'signup_filter_status_form' => array(
       'file' => 'admin.inc',
-      'path' => $path,
+      'path' => $theme_path,
       'render element' => 'form',
     ),
     'signup_admin_form' => array(
       'file' => 'admin.inc',
-      'path' => $path,
+      'path' => $theme_path,
       'render element' => 'form',
     ),
     'signup_email_token_custom_data' => array(
       'file' => 'email.inc',
-      'path' => $path,
+      'path' => $theme_path,
       'variables' => array(
         'signup_data' => NULL,
       ),
     ),
     'signup_custom_data_email' => array(
       'file' => 'email.inc',
-      'path' => $path,
+      'path' => $theme_path,
       'variables' => array(
         'data' => NULL,
       ),
     ),
     'signup_custom_data_field_text' => array(
       'file' => 'email.inc',
-      'path' => $path,
+      'path' => $theme_path,
       'variables' => array(
         'key' => NULL,
         'value' => NULL,
@@ -65,7 +68,7 @@ function signup_theme() {
     ),
     'signup_broadcast_sender_copy' => array(
       'file' => 'email.inc',
-      'path' => $path,
+      'path' => $theme_path,
       'variables' => array(
         'raw_message' => NULL,
         'cooked_message' => NULL,
@@ -73,7 +76,7 @@ function signup_theme() {
     ),
     'signup_node_admin_page' => array(
       'file' => 'node.admin.inc',
-      'path' => $path,
+      'path' => $theme_path,
       'variables' => array(
         'node' => NULL,
         'signup_node_admin_summary_form' => NULL,
@@ -83,26 +86,26 @@ function signup_theme() {
     ),
     'signup_node_admin_summary_form' => array(
       'file' => 'node.admin.inc',
-      'path' => $path,
+      'path' => $theme_path,
       'render element' => 'form',
     ),
     'signup_custom_data' => array(
       'file' => 'node.admin.inc',
-      'path' => $path,
+      'path' => $theme_path,
       'variables' => array(
         'data' => NULL,
       ),
     ),
     'signup_attended_text' => array(
       'file' => 'node.admin.inc',
-      'path' => $path,
+      'path' => $theme_path,
       'variables' => array(
         'attended' => NULL,
       ),
     ),
     'signup_signups_closed' => array(
       'file' => 'node.inc',
-      'path' => $path,
+      'path' => $theme_path,
       'variables' => array(
         'node' => NULL,
         'current_signup' => '',
@@ -110,35 +113,35 @@ function signup_theme() {
     ),
     'signup_anonymous_user_login_text' => array(
       'file' => 'node.inc',
-      'path' => $path,
+      'path' => $theme_path,
       'variables' => array(
         'anon_login_text' => NULL,
       ),
     ),
     'signup_node_output_header' => array(
       'file' => 'node.inc',
-      'path' => $path,
+      'path' => $theme_path,
       'variables' => array(
         'node' => NULL,
       ),
     ),
     'signup_node_title' => array(
       'file' => 'node.inc',
-      'path' => $path,
+      'path' => $theme_path,
       'variables' => array(
         'node' => NULL,
       ),
     ),
     'signup_user_form' => array(
       'file' => 'signup_form.inc',
-      'path' => $path,
+      'path' => $theme_path,
       'variables' => array(
         'node' => NULL,
       ),
     ),
     'signup_anonymous_username' => array(
       'file' => 'signup_form.inc',
-      'path' => $path,
+      'path' => $theme_path,
       'variables' => array(
         'form_data' => NULL,
         'email' => NULL,
@@ -146,7 +149,7 @@ function signup_theme() {
     ),
     'signup_settings_view_label' => array(
       'file' => 'admin.settings.inc',
-      'path' => drupal_get_path('module', 'signup') . '/includes',
+      'path' => $inc_path,
       'variables' => array(
         'view' => NULL,
         'display_id' => NULL,

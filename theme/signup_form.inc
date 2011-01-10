@@ -36,15 +36,18 @@
  * If you do not want any additional fields, the function can simply
  * return an empty array: "return array();"
  *
- * @param $node
- *   The fully loaded node object where this signup form is appearing.
+ * @param $variables
+ *   An array of variables including:
+ *   - 'node': The fully loaded node object where this signup form is appearing.
  *
  * @return
  *   Array defining the form to present to the user to signup for a node.
  *
  * @see theme_signup_anonymous_username()
  */
-function theme_signup_user_form($node) {
+function theme_signup_user_form($variables) {
+  $node = $variables['node'];
+
   global $user;
   $form = array();
   if (variable_get('signup_ignore_default_fields', 0)) {
@@ -86,16 +89,20 @@ function theme_signup_user_form($node) {
  * This value is used for the %user_name email token for anonymous users, and
  * also to identify a particular anonymous signup in various places in the UI.
  *
- * @param $form_data
- *   Array of custom signup form values for the current signup.
- * @param $email
- *   E-mail address of the anonymous user who signed up.
+ * @param $variables
+ *   An array of variables including:
+ *   - 'form_data': Array of custom signup form values for the current signup.
+ *   - 'email': E-mail address of the anonymous user who signed up.
+ *
  * @return
  *   A string with the proper value for the %user_name email token.
  *
  * @see theme_signup_user_form()
  */
-function theme_signup_anonymous_username($form_data, $email) {
+function theme_signup_anonymous_username($variables) {
+  $form_data = $variables['form_data'];
+  $email = $variables['email'];
+
   // In some cases, the best you can do is to use the anonymous user's
   // supplied email address, in which case, you should uncomment this:
   //return $email;
