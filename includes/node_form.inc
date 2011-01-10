@@ -109,7 +109,7 @@ function signup_alter_node_form(&$form, &$form_state, $form_id) {
   global $user;
 
   // Node is not saved but previewed (nid is empty).
-  if (isset($form['#node']->build_mode) && $form['#node']->build_mode == NODE_BUILD_PREVIEW) {
+  if (isset($form['#node']->in_preview) && $form['#node']->in_preview) {
     $node = $form['#node'];
   }
   // Load the node if it already exists.
