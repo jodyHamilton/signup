@@ -6,6 +6,7 @@ $Id: CHANGELOG.txt,v 1.115.2.72 2011/01/09 18:43:15 dww Exp $
 Bugs fixed since 6.x-1.0:
 = #856604 by dww: Removed duplicate entry in signup_theme().
 = #1020590 by dww: Removed includes/no_views.inc (missed during #582986).
+= #1020758 by dww: Fixed missing table prefix for query (introduced in #856604)
 
 
 ------------------------
@@ -786,4 +787,3 @@ been no changes in the signup module since August 2006, so this should
 be the same code as any of the signup-4.7.0.tar.gz files from
 2006-08-19 and later. Additional releases of this series will only fix
 bugs in the existing functionality.
-
