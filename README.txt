@@ -1,4 +1,4 @@
-$Id: README.txt,v 1.15 2009/07/24 17:47:47 dww Exp $
+$Id: README.txt,v 1.16 2011/01/09 18:31:52 dww Exp $
 
 The signup module allows users to sign up for nodes of any type.  For
 each signup-enabled node, this module provides options for sending a

@@ -1,15 +1,9 @@
 <?php
-// $Id: signup.install,v 1.30 2009/09/19 01:42:52 dww Exp $
+// $Id: signup.install,v 1.31 2011/01/09 18:31:52 dww Exp $
 
 
 /**
- * @file
- * Install, update and uninstall functions for the signup module.
- *
- */
-
-/**
- * Implements hook_schema().
+ * Implementation of hook_schema().
  */
 function signup_schema() {
   $schema['signup'] = array(

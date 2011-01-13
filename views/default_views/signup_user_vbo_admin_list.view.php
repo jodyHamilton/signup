@@ -1,5 +1,5 @@
 <?php
-// $Id: signup_user_vbo_admin_list.view.php,v 1.2 2009/10/03 02:27:39 dww Exp $
+// $Id: signup_user_vbo_admin_list.view.php,v 1.3 2011/01/09 18:31:52 dww Exp $
 
 /**
  * @file

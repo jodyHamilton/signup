@@ -1,4 +1,4 @@
-; $Id: signup_roles.info,v 1.1.2.1 2010/10/14 19:40:45 ezrag Exp $
+; $Id: signup_roles.info,v 1.2 2011/01/09 18:31:52 dww Exp $
 name = Signup Roles
 description = "Allows the site to grant one or more roles to users who sign up for nodes."
 dependencies[] = signup

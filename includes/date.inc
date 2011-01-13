@@ -1,5 +1,5 @@
 <?php
-// $Id: date.inc,v 1.19 2009/03/04 19:19:31 dww Exp $
+// $Id: date.inc,v 1.20 2011/01/09 18:31:52 dww Exp $
 
 
 /**

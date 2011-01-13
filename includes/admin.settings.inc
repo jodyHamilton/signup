@@ -1,5 +1,5 @@
 <?php
-// $Id: admin.settings.inc,v 1.7 2009/01/24 08:52:39 dww Exp $
+// $Id: admin.settings.inc,v 1.8 2011/01/09 18:31:52 dww Exp $
 
 
 /**
