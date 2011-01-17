@@ -712,10 +712,9 @@ function signup_user_insert(&$edit, $account, $category) {
 /**
  * Implements hook_form_FORM_ID_alter().
  *
- * @todo: check if this actually works...
  * @ingroup signup_core
  */
-function signup_form_user_register_alter(&$form, &$form_state, $form_id) {
+function signup_form_user_register_form_alter(&$form, &$form_state) {
   // Get a list of nodes that should appear on the user registration form.
   $query = db_select('node', 'n');
   $alias = $query->join('signup', 's', 'n.nid = s.nid');
@@ -725,11 +724,8 @@ function signup_form_user_register_alter(&$form, &$form_state, $form_id) {
     ->condition("{$alias}.user_reg_form", 1)
     ->condition("{$alias}.status", 1);
   $query->addTag('node_access');
-  $result = $query->execute();
+  $nids = $query->execute()->fetchCol();
 
-  while ($result = db_fetch_object($query)) {
-    $nids[] = $result->nid;
-  }
   // Allow other modules to alter the list of nids.
   drupal_alter('signup_user_reg_nids', $nids);
   // If there is at least one node, add the Signup fieldset.
@@ -745,11 +741,10 @@ function signup_form_user_register_alter(&$form, &$form_state, $form_id) {
       $node = node_load($nid);
       $form['signup'][$nid] = array(
         '#type' => 'checkbox',
-        '#title' => theme('signup_node_title', $node),
+        '#title' => theme('signup_node_title', array('node' => $node)),
         '#default_value' => 0,
       );
     }
-    return $form;
   }
 }
 

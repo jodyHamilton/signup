@@ -70,8 +70,10 @@ function theme_signup_node_output_header($variables) {
  */
 function theme_signup_node_title($variables) {
   $node = $variables['node'];
+  $date_formatted = '';
 
-  $date_field = signup_date_field($node->type);
+  // TODO: date.inc needs to be ported to D7 before using this.
+  /* $date_field = signup_date_field($node->type);
   if (!empty($date_field)) {
     $date_field_name = $date_field['field_name'];
     $this_date_field = $node->$date_field_name;
@@ -80,6 +82,7 @@ function theme_signup_node_title($variables) {
       $date_formatted = ' - ' . $date_formatted;
     }
   }
-
+  */
   return l($node->title, 'node/' . $node->nid) . $date_formatted;
 }
+
