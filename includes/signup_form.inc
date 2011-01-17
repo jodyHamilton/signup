@@ -113,8 +113,10 @@ function signup_form($form, &$form_state, $node, $signup_type = 'auth', $fieldse
  */
 function signup_form_submit($form, &$form_state) {
   if (isset($form_state['values']['signup_username'])) {
-    $account = user_load_multiple(array(), array('name' => $form_state['values']['signup_username']));
-    $form_state['values']['uid'] = $account->uid;
+    $accounts = user_load_multiple(array(), array('name' => $form_state['values']['signup_username']));
+    foreach ($accounts as $account) {
+      $form_state['values']['uid'] = $account->uid;
+    }
   }
   signup_sign_up_user($form_state['values']);
 }
@@ -184,13 +186,15 @@ function signup_validate_anon_email($nid, $anon_mail, $name = FALSE) {
 function signup_form_validate_username($form, $form_state) {
   $nid = $form_state['values']['nid'];
   $username = $form_state['values']['signup_username'];
-  $account = user_load_multiple(array(), array('name' => $username));
-  if (empty($account)) {
-    form_set_error('signup_username', t('User %user_name does not exist.', array('%user_name' => $username)));
-  }
-  elseif ((bool) db_query_range("SELECT 1 FROM {signup_log} WHERE uid = :uid AND nid = :nid", 0, 1, array(':uid' => $account->uid, ':nid' => $nid))->fetchField() > 0) {
-    $node = node_load($nid);
-    form_set_error('signup_username', t('User !user is already signed up for %title', array('!user' => theme('username', array('account' => $account)), '%title' => $node->title)));
+  $accounts = user_load_multiple(array(), array('name' => $username));
+  foreach ($accounts as $account) {
+    if (empty($account)) {
+      form_set_error('signup_username', t('User %user_name does not exist.', array('%user_name' => $username)));
+    }
+    elseif ((bool) db_query_range("SELECT 1 FROM {signup_log} WHERE uid = :uid AND nid = :nid", 0, 1, array(':uid' => $account->uid, ':nid' => $nid))->fetchField() > 0) {
+      $node = node_load($nid);
+      form_set_error('signup_username', t('User !user is already signed up for %title', array('!user' => theme('username', array('account' => $account)), '%title' => $node->title)));
+    }
   }
 }
 
