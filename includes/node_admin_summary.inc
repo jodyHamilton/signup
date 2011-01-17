@@ -12,9 +12,7 @@
  * @see http://drupal.org/node/1354
  */
 function signup_node_admin_summary_form($form, &$form_state, $node) {
-  if ($node->signup_close_signup_limit &&
-    $node->signup_effective_total >= $node->signup_close_signup_limit
-  ) {
+  if ($node->signup_close_signup_limit && $node->signup_effective_total >= $node->signup_close_signup_limit) {
     $form['status'] = array(
       '#type' => 'item',
       '#title' => t('Signups are'),
@@ -40,17 +38,17 @@ function signup_node_admin_summary_form($form, &$form_state, $node) {
   $form['total_signups'] = array(
     '#type' => 'item',
     '#title' => t('Total signups'),
-    '#value' => isset($node->signup_total) ? $node->signup_total : 0,
+    '#markup' => isset($node->signup_total) ? $node->signup_total : 0,
   );
   $form['slots_used'] = array(
     '#type' => 'item',
     '#title' => t('Signup slots used'),
-    '#value' => isset($node->signup_effective_total) ? $node->signup_effective_total : 0,
+    '#markup' => isset($node->signup_effective_total) ? $node->signup_effective_total : 0,
   );
   $form['limit'] = array(
     '#type' => 'item',
     '#title' => t('Signup limit'),
-    '#value' => l($node->signup_close_signup_limit, 'node/' . $node->nid . '/signups/settings', array('fragment' => 'signup-limit')),
+    '#markup' => l($node->signup_close_signup_limit, 'node/' . $node->nid . '/signups/settings', array('fragment' => 'signup-limit')),
   );
   $form['nid'] = array(
     '#type' => 'value',

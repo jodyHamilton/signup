@@ -45,7 +45,8 @@ function theme_signup_node_admin_page($variables) {
 /**
  * Renders the HTML for the per-node signup summary administrative form.
  */
-function theme_signup_node_admin_summary_form($form) {
+function theme_signup_node_admin_summary_form($variables) {
+  $form = $variables['form'];
   $output = '';
   $output .= '<div class="container-inline">' . drupal_render($form['status']);
   if (!empty($form['submit']) && $form['status']['#type'] == 'select') {
