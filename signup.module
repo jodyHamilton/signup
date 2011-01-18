@@ -39,11 +39,6 @@ function signup_theme() {
       'path' => $theme_path,
       'render element' => 'form',
     ),
-    'signup_admin_form' => array(
-      'file' => 'admin.inc',
-      'path' => $theme_path,
-      'render element' => 'form',
-    ),
     'signup_email_token_custom_data' => array(
       'file' => 'email.inc',
       'path' => $theme_path,

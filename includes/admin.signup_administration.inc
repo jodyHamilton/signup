@@ -11,17 +11,12 @@
  * Print the admin signup overview page located at admin/content/signup.
  */
 function signup_admin_page() {
-  // TODO: This is a hack.
-  $sql = "SELECT n.nid, n.title, s_l.sid, u.name, u.uid, s_l.form_data FROM {node} n INNER JOIN {signup_log} s_l ON n.nid = s_l.nid INNER JOIN {users} u ON s_l.uid = u.uid ORDER BY n.nid";
-  $signups = db_query($sql);
-  return theme('signups_recent_block', array('signups' => $signups));
-
   $filter_status_form = drupal_get_form('signup_filter_status_form');
   $signup_admin_form = drupal_get_form('signup_admin_form');
   return array(
     '#theme' => 'signup_admin_page',
     '#attached' => array(
-      'css' => drupal_get_path('module', 'signup') . '/signup.css',
+      'css' => array(drupal_get_path('module', 'signup') . '/signup.css'),
     ),
     '#filter_status_form' => $filter_status_form,
     '#signup_admin_form' => $signup_admin_form,
@@ -64,29 +59,29 @@ function signup_filter_status_form_submit($form, &$form_state) {
 /**
  * Form builder for the main form on the signup administration page.
  */
-function signup_admin_form($form, $form_state) {
+function signup_admin_form($form, &$form_state) {
   // Figure out if the current user has permission to use signup broadcast.
   $access_broadcast = user_access('email all signed up users');
 
   $header = array(
-    array(
+    'title' => array(
       'data' => t('Title'),
       'field' => 'n.title',
       'sort' => 'asc',
     ),
-    array(
+    'total' => array(
       'data' => t('Signups'),
       'field' => 'signup_total',
     ),
-    array(
+    'limit' => array(
       'data' => t('Limit'),
       'field' => 'signup_close_signup_limit',
     ),
-    array(
+    'status' => array(
       'data' => t('Status'),
       'field' => 'signup_status',
     ),
-    array('data' => t('Operations')),
+    'operations' => array('data' => t('Operations')),
   );
 
   $start_column = signup_admin_form_header();
@@ -96,51 +91,54 @@ function signup_admin_form($form, $form_state) {
 
   list($sql, $sql_count) = signup_admin_form_sql();
 
-  $form['header']['#value'] = $header;
-
-  // TODO: Add this back using correct D7 methods.
-  // $sql .= tablesort_sql($header);
-
-  $result = pager_query($sql, 25, 0, $sql_count);
+  $result = db_query_range($sql, 0, 25);
 
   // Loop through the signup nodes, and generate our form elements
+  $rows = array();
   foreach ($result as $signup_node) {
     $row = array();
     if (!empty($start_column)) {
       $row['start'] = signup_admin_form_extra($signup_node);
     }
-
     // Instead of duplicating the logic from the node/N/signups admin
     // form, we just call that form builder here and lift the elements
     // we need directly from that.
     module_load_include('inc', 'signup', 'includes/node_admin_summary');
-    $node_admin_form = signup_node_admin_summary_form(array(), $signup_node);
+    $new_form_state = array();
+    $node_admin_form = signup_node_admin_summary_form(array(), $new_form_state, $signup_node);
     $row['title'] = array(
-      '#markup' => l($signup_node->title, "node/$signup_node->nid"),
+      'data' => array(
+        '#type' => 'link',
+        '#title' => $signup_node->title,
+        '#href' => "node/$signup_node->nid",
+      ),
     );
-    $row['status'] = $node_admin_form['status'];
-    unset($row['status']['#title']);
-    $row['total'] = array(
-      '#markup' => $signup_node->signup_total,
-    );
-    $row['limit'] = $node_admin_form['limit'];
-    unset($row['limit']['#title']);
+    $row['status']['data'] = $node_admin_form['status'];
+    unset($row['status']['data']['#title']);
+    $row['total'] = $signup_node->signup_total;
+    $row['limit']['data'] = $node_admin_form['limit'];
+    unset($row['limit']['data']['#title']);
     $op_links = l(t('View signups'), "node/$signup_node->nid/signups");
     if ($access_broadcast) {
       $op_links .= '<br />';
       $options['attributes']['title'] = t('Send an email message to all users who signed up.');
       $op_links .= l(t('Signup broadcast'), "node/$signup_node->nid/signups/broadcast", $options);
     }
-    $row['operations'] = array(
-      '#markup' => $op_links,
-    );
-    $form['nids'][$signup_node->nid] = $row;
+    $row['operations'] = $op_links;
+    $rows[$signup_node->nid] = $row;
   }
   $form['#tree'] = TRUE;
+  $form['nids'] = array(
+    '#type' => 'tableselect',
+    '#header' => $header,
+    '#options' => $rows,
+    '#empty' => t('No signups available.'),
+  );
   $form['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Update'),
   );
+  $form['pager'] = array('#markup' => theme('pager'));
   return $form;
 }
 

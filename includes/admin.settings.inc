@@ -210,25 +210,9 @@ function signup_settings_form_submit($form, &$form_state) {
     ))
       ->condition('nid', 0)
       ->execute();
-    /*
-     $values = array(
-     $form_state['values']['signup_forwarding_email'],
-     $form_state['values']['signup_send_confirmation'],
-     $form_state['values']['signup_confirmation_email'],
-     $form_state['values']['signup_close_signup_limit'],
-     );
-     $values[] = isset($form_state['values']['signup_send_reminder']) ? $form_state['values']['signup_send_reminder'] : 0;
-     $values[] = isset($form_state['values']['signup_reminder_days_before']) ? $form_state['values']['signup_reminder_days_before'] : 0;
-     $values[] = isset($form_state['values']['signup_reminder_email']) ? $form_state['values']['signup_reminder_email'] : '';
-     $values[] = 0; // "nid" of the row in {signup} for the global settings.
-     db_query("UPDATE {signup} SET forwarding_email = '%s', send_confirmation = %d, confirmation_email = '%s', close_signup_limit = %d, send_reminder = %d, reminder_days_before = %d, reminder_email = '%s' WHERE nid = %d", $values);
-     *
-     */
   }
   else {
     module_load_include('install', 'signup', 'signup');
-    // TODO Please review the conversion of this statement to the D7 database API syntax.
-    /* db_query("DELETE FROM {signup} WHERE nid = 0") */
     db_delete('signup')
       ->condition('nid', 0)
       ->execute();

@@ -12,7 +12,7 @@
  * @see http://drupal.org/node/1354
  */
 function signup_node_admin_summary_form($form, &$form_state, $node) {
-  if ($node->signup_close_signup_limit && $node->signup_effective_total >= $node->signup_close_signup_limit) {
+  if (isset($node->signup_effective_total) && $node->signup_close_signup_limit && $node->signup_effective_total >= $node->signup_close_signup_limit) {
     $form['status'] = array(
       '#type' => 'item',
       '#title' => t('Signups are'),
